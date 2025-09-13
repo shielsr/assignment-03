@@ -51,15 +51,24 @@ class Sale:
 	def __repr__(self):
 		return f"Sale(gig='{self.gig})', sale begins='{self.start_date_time}', amount of tickets={self.ticket_amount})"
 
+	def ticket_check(self):
+		if self.status == SaleStatus.LIVE:
+			if self.ticket_amount > 0:
+				return f"There are {self.ticket_amount} tickets left."
+			else:
+				self.status = SaleStatus.COMPLETE
+				return f"There are no tickets left."
+		else:
+			return f"Tickets aren't on sale yet."
+
 	def countdown(self):
 		days_left = (self.start_date_time - datetime.now()).days
-		if self.ticket_amount > 0:
-			if days_left>0:
-				return f"{self.status}, starting in {days_left} days"
-			elif self.status is SaleStatus.LIVE: 
-				return f"Sale is live"
+		if days_left > 0:
+			self.status = SaleStatus.PENDING
+			return f"Sale starts in {days_left} days."
 		else:
-			return f"Sale is over"
+			self.status = SaleStatus.LIVE
+			return f"Sale is live."
 
 class Buy:
 	def __init__(self, promoter, buyer, quantity):
