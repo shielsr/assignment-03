@@ -1,5 +1,6 @@
 from enum import Enum, auto
 from datetime import datetime, date, timedelta
+from decimal import Decimal
 
 class TicketError(Exception):
 	pass
@@ -57,12 +58,14 @@ class Sale:
 		self.tickets_left =  tickets_total # A copy of tickets_total that will be reduced as tickets when tickets are sold
 		self.status = SaleStatus.PENDING
 		self.buyer = None
+		self.order_list = [] # Capture the customer details and number of tickets bought here
+
 		
 	def __repr__(self):
 		return f"Sale(gig='{self.gig})', sale begins='{self.start_date_time}', amount of tickets={self.tickets_total})"
 
 	def ticket_check(self):
-		# While the sale is live, check on whether there are still tickets left
+		# While the sale is live, check whether there are still tickets left
 		if self.status == SaleStatus.LIVE:
 			if self.tickets_total > 0:
 				return f"There are {self.tickets_total} tickets left."
@@ -85,10 +88,17 @@ class Sale:
 		
 	def buy(self, buyer, buy_amount):
 		if self.tickets_left >= buy_amount:
-			self.buyer = buyer 
+			self.order_list.append({
+				"customer": buyer,
+				"tickets": buy_amount
+				})
 			print (f"{buyer}, you are buying {buy_amount} tickets")
+			print (f"Ticket price: {self.ticket_price}")
+			print (f"Total cost: {self.ticket_price * buy_amount}")
+			
 			self.tickets_left = self.tickets_left - buy_amount
 			print (f"There are {self.tickets_left} tickets left.")
+			print(self.order_list)
 		else:
 			print (f"Sorry there aren't enough tickets left")
 
@@ -98,3 +108,27 @@ class Buy:
 		self.buyer = buyer
 		self.quantity= quantity
 
+
+# Initialise a gig and sale
+
+def initialise_gig_and_sale():
+	"""Create a basic gig and sale to be used as a default"""
+	mcd = Promoter(
+    	name="MCD"
+        )
+	gig0001 = Gig(artist="Fontains DC",
+        description="Check out the next gig",
+        date_time=datetime(2026,2,5,20,30,0),
+        image_url="image/fontaines.jpg",
+        venue="The Olympia",
+        promoter=mcd
+        )
+
+	sale0001 = Sale(
+    	ticket_price=20.50,
+        tickets_total=999,
+        start_date_time=datetime(2025,11, 30, 10, 0, 0),
+        gig = gig0001
+    )
+	
+	return sale0001
