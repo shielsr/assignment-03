@@ -49,20 +49,21 @@ class SaleStatus(Enum):
 
 class Sale:
 
-	def __init__(self, gig, ticket_price, tickets_total, start_date_time):
+	def __init__(self, gig, ticket_price, tickets_total, sale_date_time, customer):
 		# The promoter sets a date and time for the ticket sale (rather than the gig itself)
 		self.gig = gig
-		self.start_date_time = start_date_time
+		self.sale_date_time = sale_date_time
 		self.ticket_price = ticket_price
 		self.tickets_total = tickets_total # A fixed amount that won't change
 		self.tickets_left =  tickets_total # A copy of tickets_total that will be reduced as tickets when tickets are sold
 		self.status = SaleStatus.PENDING
 		self.buyer = None
 		self.order_list = [] # Capture the customer details and number of tickets bought here
+		self.customer = customer # Pulling in the customer
 
 		
 	def __repr__(self):
-		return f"Sale(gig='{self.gig})', sale begins='{self.start_date_time}', amount of tickets={self.tickets_total})"
+		return f"Sale(gig='{self.gig})', sale begins='{self.sale_date_time}', amount of tickets={self.tickets_total})"
 
 	def ticket_check(self):
 		# While the sale is live, check whether there are still tickets left
@@ -87,8 +88,8 @@ class Sale:
 			return f"Sale is live."
 		
 	def buy(self, buyer, buy_amount):
-		if self.tickets_left >= buy_amount:
-			self.order_list.append({
+		if self.tickets_left >= buy_amount: # Make sure there are enough tickets left
+			self.order_list.append({ # Add the order details to the order_list
 				"customer": buyer,
 				"tickets": buy_amount
 				})
@@ -102,11 +103,7 @@ class Sale:
 		else:
 			print (f"Sorry there aren't enough tickets left")
 
-class Buy:
-	def __init__(self, promoter, buyer, quantity):
-		self.promoter = promoter
-		self.buyer = buyer
-		self.quantity= quantity
+
 
 
 # Initialise a gig and sale
@@ -116,10 +113,17 @@ def initialise_gig_and_sale():
 	mcd = Promoter(
     	name="MCD"
         )
-	gig0001 = Gig(artist="Fontains DC",
+	
+	customer1234 = Customer(
+    name="Jim Smith",
+	email="jimsmith@gmail.com"
+    )
+	
+	gig0001 = Gig(
+		artist="Fontaines DC",
         description="Check out the next gig",
         date_time=datetime(2026,2,5,20,30,0),
-        image_url="image/fontaines.jpg",
+        image_url="static/images/fontaines.jpg",
         venue="The Olympia",
         promoter=mcd
         )
@@ -127,8 +131,9 @@ def initialise_gig_and_sale():
 	sale0001 = Sale(
     	ticket_price=20.50,
         tickets_total=999,
-        start_date_time=datetime(2025,11, 30, 10, 0, 0),
-        gig = gig0001
+        sale_date_time=datetime(2025,3, 30, 10, 0, 0),
+        gig = gig0001,
+		customer = customer1234
     )
-	
+
 	return sale0001

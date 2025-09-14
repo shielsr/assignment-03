@@ -1,5 +1,22 @@
 {% extends "base.html" %}
 
 {% block main %}
-      <h1>Ticket Maestro - For all your event ticketing needs</h1>
+<h1>Ticket Maestro - For all your event ticketing needs</h1>
+<h2>See what gigs are coming up</h2>
+<div class="card" style="width: 18rem">
+      <img src="{{gig_sale.gig.image_url}}" alt="{{gig_sale.gig.artist}}" class="card-img-top">
+      <div class="card-body">
+            <h5 class="card-title">{{gig_sale.gig.artist}}</h5>
+            <p>Date: {{gig_sale.gig.date_time}}</p>
+            <p>Venue: {{gig_sale.gig.venue}}</p>
+            <p>Promoter: {{gig_sale.gig.promoter.name}}</p>
+            <p>Price: €{{ "%.2f"|format(gig_sale.ticket_price)}}</p>
+
+
+            <form action="{{url_for('buy_page')}}" method="post">
+                  <button type="submit" id="order_page">Check availability</button>
+            </form>
+      </div>
+</div>
+
 {% endblock %}
