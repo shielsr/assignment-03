@@ -13,9 +13,15 @@ As a .... I want to ... so that I ....
 4. As a promoter, I want the sale to stop when tickets run out, so I don't sell too many tickets.
 
 . As a promoter, I want to be able to toggle 'dynamic pricing', so the price of tickets will increase when quantities run low.
-. As a customer, I want to buy tickets so I can attend gigs.
+
+Customer:
 . As a customer, I want to search for artists I like, to see when and where their next gigs are.
+. As a customer, I want to see when the ticket sale begins so I can be ready at a specific date and time.
+. As a customer, I want to buy tickets so I can attend gigs.
 . As a customer, I want to see the final ticket price, so I know how much I will be paying
+
+
+
 
 
 # Nouns/entities

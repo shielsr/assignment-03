@@ -1,6 +1,9 @@
 from enum import Enum, auto
 from datetime import datetime, date, timedelta
 
+class TicketError(Exception):
+	pass
+
 # As a promoter, I want to post upcoming gigs with details on artist, time, date, and venue, so fans will know what gigs are coming up.
 
 
@@ -13,8 +16,12 @@ class Promoter:
 		return f"Promoter(name='{self.name}')"
 
 class Customer:
-	def __init__(self, name):
+	def __init__(self, name, email):
 		self.name = name
+		self.email = email
+
+	def __repr__(self):
+		return f"Customer(name='{self.name}', email='{self.email}')"
 
 class Gig:
 	def __init__(self, artist, date_time, venue, promoter, description="", image_url=""):
@@ -41,27 +48,33 @@ class SaleStatus(Enum):
 
 class Sale:
 
-	def __init__(self, gig, ticket_price, ticket_amount, start_date_time):
+	def __init__(self, gig, ticket_price, tickets_total, start_date_time):
+		# The promoter sets a date and time for the ticket sale (rather than the gig itself)
 		self.gig = gig
 		self.start_date_time = start_date_time
 		self.ticket_price = ticket_price
-		self.ticket_amount = ticket_amount
+		self.tickets_total = tickets_total # A fixed amount that won't change
+		self.tickets_left =  tickets_total # A copy of tickets_total that will be reduced as tickets when tickets are sold
 		self.status = SaleStatus.PENDING
+		self.buyer = None
 		
 	def __repr__(self):
-		return f"Sale(gig='{self.gig})', sale begins='{self.start_date_time}', amount of tickets={self.ticket_amount})"
+		return f"Sale(gig='{self.gig})', sale begins='{self.start_date_time}', amount of tickets={self.tickets_total})"
 
 	def ticket_check(self):
+		# While the sale is live, check on whether there are still tickets left
 		if self.status == SaleStatus.LIVE:
-			if self.ticket_amount > 0:
-				return f"There are {self.ticket_amount} tickets left."
+			if self.tickets_total > 0:
+				return f"There are {self.tickets_total} tickets left."
 			else:
 				self.status = SaleStatus.COMPLETE
-				return f"There are no tickets left."
+				raise TicketError(f"Sorry, there are no tickets left.")
+				# There probably should be a redirect away from the sales page
 		else:
 			return f"Tickets aren't on sale yet."
 
 	def countdown(self):
+		# Counting down to the sale
 		days_left = (self.start_date_time - datetime.now()).days
 		if days_left > 0:
 			self.status = SaleStatus.PENDING
@@ -69,9 +82,19 @@ class Sale:
 		else:
 			self.status = SaleStatus.LIVE
 			return f"Sale is live."
+		
+	def buy(self, buyer, buy_amount):
+		if self.tickets_left >= buy_amount:
+			self.buyer = buyer 
+			print (f"{buyer}, you are buying {buy_amount} tickets")
+			self.tickets_left = self.tickets_left - buy_amount
+			print (f"There are {self.tickets_left} tickets left.")
+		else:
+			print (f"Sorry there aren't enough tickets left")
 
 class Buy:
 	def __init__(self, promoter, buyer, quantity):
 		self.promoter = promoter
 		self.buyer = buyer
 		self.quantity= quantity
+
