@@ -92,7 +92,7 @@ class Sale:
 			self.order_list.append({ # Add the order details to the order_list
 				"customer": buyer,
 				"tickets": buy_amount
-				})
+			})
 			print (f"{buyer}, you are buying {buy_amount} tickets")
 			print (f"Ticket price: {self.ticket_price}")
 			print (f"Total cost: {self.ticket_price * buy_amount}")

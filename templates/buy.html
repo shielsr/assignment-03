@@ -17,10 +17,16 @@
 
 
 
-<form action="{{url_for('buy_now')}}" method="post">
-      <input type="text" name="buyer" value="John Smith">
-      <input type="number" name="buy_amount" id="buy_amount" value="5">
-      <button type="submit">Buy now</button>
+<form action="{{url_for('buy_now')}}" method="post" style="width:300px">
+      <div class="form-group">
+            <label for="customer_name">Name:</label>
+            <input type="text" class="form-control" id="customer_name" name="buyer" value="{{session.username}}">
+      </div>
+      <div class="form-group">
+            <label for="buy_amount">Number of tickets:</label>
+            <input type="number" class="form-control" name="buy_amount" id="buy_amount" value="5">
+      </div>
+      <button class="btn btn-primary" type="submit">Buy now</button>
 </form>
 
 {% endblock %}
