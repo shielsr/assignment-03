@@ -3,20 +3,30 @@
 {% block main %}
 <h1>Ticket Maestro - For all your event ticketing needs</h1>
 <h2>See what gigs are coming up</h2>
-<div class="card" style="width: 18rem">
-      <img src="{{gig_sale.gig.image_url}}" alt="{{gig_sale.gig.artist}}" class="card-img-top">
-      <div class="card-body">
-            <h5 class="card-title">{{gig_sale.gig.artist}}</h5>
-            <p>Date: {{gig_sale.gig.date_time}}</p>
-            <p>Venue: {{gig_sale.gig.venue}}</p>
-            <p>Promoter: {{gig_sale.gig.promoter.name}}</p>
-            <p>Price: €{{ "%.2f"|format(gig_sale.ticket_price)}}</p>
+
+<a class="btn btn-success mb-3" href="{{ url_for('add') }}">Add a new gig</a>
 
 
-            <form action="{{url_for('buy_page')}}" method="post">
-                  <button class="btn btn-primary" type="submit" id="order_page">Check availability</button>
-            </form>
-      </div>
+<div class="row">
+      {% for gig in gigs %}
+            <div class="col-md-4 mb-3">
+                  <div class="card h-100">
+                        <img src="{{ gig.image_url }}" alt="{{ gig.artist }}" class="card-img-top">
+                        <div class="card-body">
+                              <h5 class="card-title">{{ gig.artist }}</h5>
+                              <p>Date: {{ gig.date_time }}</p>
+                              <p>Venue: {{ gig.venue }}</p>
+                              <p>Promoter: {{ gig.promoter.name }}</p>
+                              <p>Description: {{ gig.description }}</p>
+                              
+                                    <form method="post" action="{{ url_for('buy_page') }}">
+                                          <button class="btn btn-primary" type="submit" id="order_page">Check availability</button>
+                                    </form>
+                              
+                        </div>
+                  </div>
+            </div>
+      {% endfor %}
 </div>
 
 {% endblock %}
