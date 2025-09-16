@@ -49,7 +49,7 @@ class SaleStatus(Enum):
 
 class Sale:
 
-	def __init__(self, gig, ticket_price, tickets_total, sale_date_time, customer):
+	def __init__(self, gig, ticket_price, tickets_total, sale_date_time):
 		# The promoter sets a date and time for the ticket sale (rather than the gig itself)
 		self.gig = gig
 		self.sale_date_time = sale_date_time
@@ -58,8 +58,7 @@ class Sale:
 		self.tickets_left =  tickets_total # A copy of tickets_total that will be reduced as tickets when tickets are sold
 		self.status = SaleStatus.PENDING
 		self.buyer = None
-		self.order_list = [] # Capture the customer details and number of tickets bought here
-		self.customer = customer # Pulling in the customer
+		# self.customer = customer # Pulling in the customer
 
 		
 	def __repr__(self):
@@ -114,10 +113,6 @@ def initialise_gig_and_sale():
     	name="MCD"
         )
 	
-	customer1234 = Customer(
-    name="Jim Smith",
-	email="jimsmith@gmail.com"
-    )
 	
 	gig0001 = Gig(
 		artist="Fontaines DC",
@@ -133,7 +128,6 @@ def initialise_gig_and_sale():
         tickets_total=999,
         sale_date_time=datetime(2025,3, 30, 10, 0, 0),
         gig = gig0001,
-		customer = customer1234
     )
 
 	return sale0001

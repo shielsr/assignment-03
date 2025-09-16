@@ -18,10 +18,10 @@
                               <p>Venue: {{ gig.venue }}</p>
                               <p>Promoter: {{ gig.promoter.name }}</p>
                               <p>Description: {{ gig.description }}</p>
-                              
-                                    <form method="post" action="{{ url_for('buy_page') }}">
-                                          <button class="btn btn-primary" type="submit" id="order_page">Check availability</button>
-                                    </form>
+                              <p>Image URL: {{ gig.image_url }}</p>
+                                    <form method="get" action="{{ url_for('buy_page', gig_id=loop.index0) }}">
+    <button class="btn btn-primary" type="submit">Check availability</button>
+</form>
                               
                         </div>
                   </div>
@@ -30,3 +30,4 @@
 </div>
 
 {% endblock %}
+

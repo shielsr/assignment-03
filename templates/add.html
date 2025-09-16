@@ -9,13 +9,53 @@
         <h5 class="card-title">Add an upcoming event</h3>
             <form action="{{ url_for('add') }}" method="post">
                 <div class="form-group">
-                    <label for="customer_name">Name:</label>
+                    <label for="artist">Name:</label>
                     <input type="text" name="artist" class="form-control" placeholder="Artist name">
                 </div>
-                <button type="submit" class="btn btn-primary">Add</button>
+                <div class="form-group">
+                    <label for="date_time">Date and time:</label>
+                    <input type="date" name="date_time" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="venue">Venue:</label>
+                    <input type="text" name="venue" class="form-control" placeholder="Venue name">
+                </div>
+                <div class="form-group">
+                    <label for="promoter">Promoter:</label>
+                    <input type="text" name="promoter" class="form-control" placeholder="Promoter name">
+                </div>
+                <div class="form-group">
+                    <label for="description">Description:</label>
+                    <textarea name="description" rows="5" cols="30" class="form-control"
+                        placeholder="Enter description"> </textarea>
+                </div>
+                <div class="form-group">
+                    <label for="description">Image:</label>
+                    <input type="text" id="image" name="image_url" />
+                </div>
+                <div class="form-group">
+                    <label for="ticket_price">Ticket price:</label>
+                    <input type="number" name="ticket_price" class="form-control"  step="0.01" id="price">
+                </div>
+                <div class="form-group">
+                    <label for="tickets_total">Total number of tickets:</label>
+                    <input type="number" name="tickets_total" class="form-control" placeholder="0">
+                </div>
+                <div class="form-group">
+                    <label for="sale_date_time">Start of sale:</label>
+                    <input type="date" name="sale_date_time" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-primary">Create event</button>
             </form>
     </div>
 </div>
 
 
 {% endblock %}
+
+artist = request.form.get("artist")
+date_time = request.form.get("date_time")
+venue = request.form.get("venue")
+promoter_name = request.form.get("promoter")
+description = request.form.get("description", "")
+image_url = request.form.get("image_url", "")

@@ -14,3 +14,4 @@ Assignment 3 - Python module
 - Set up Flask. Created the app.py file and template html files.
 - Got the placeholder 'gig' working, along with the ability to 'purchase' tickets
 - Added basic login session functionality
+- Allowed users to add new gigs, with loop on homepage showing newly added gigs.

@@ -1,16 +1,16 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from models import *
 from flask_socketio import SocketIO, emit
-
+from datetime import datetime
 
 # Store all gigs and sales
 GIGS = []
-SALES = []
+SALEEVENT = []
 
 # Add initial gig and sale
 initial_sale = initialise_gig_and_sale()
 GIGS.append(initial_sale.gig)
-SALES.append(initial_sale)
+SALEEVENT.append(initial_sale)
 
 
 app = Flask(__name__)
@@ -20,7 +20,7 @@ socket = SocketIO(app, async_mode='gevent')
 
 @app.route('/')
 def index():
-    """Render the home page with all gigs"""
+    # Render the home page with all gigs
     return render_template('home.html', gigs=GIGS)
 
 @app.route('/add', methods=["GET", "POST"])
@@ -31,10 +31,14 @@ def add():
         venue = request.form.get("venue")
         promoter_name = request.form.get("promoter")
         description = request.form.get("description", "")
-        image_url = request.form.get("image_url", "")
+        image_url = request.form.get("image_url", "") # FIx this
+        
+        ticket_price = float(request.form.get("ticket_price"))
+        tickets_total = int(request.form.get("tickets_total"))
+        sale_date_time = request.form.get("sale_date_time")
 
         # Convert date_time string to datetime object
-        from datetime import datetime
+ 
         try:
             date_time_obj = datetime.strptime(date_time, "%Y-%m-%dT%H:%M")
         except Exception:
@@ -43,16 +47,20 @@ def add():
         promoter = Promoter(promoter_name)
         new_gig = Gig(artist, date_time_obj, venue, promoter, description, image_url)
         GIGS.append(new_gig)
+        
+        new_sale = Sale(new_gig, ticket_price, tickets_total, sale_date_time)
+        SALEEVENT.append(new_sale)
+
         return redirect(url_for("index"))
     return render_template("add.html")
 
-@app.route('/buy', methods=["POST"]) # The button that takes you from the homepage to the buy page
-def buy_page():
-    """Render the ticket purchase page"""
-    # Use the first sale for ticket purchase
-    return render_template('buy.html', gig_sale=SALES[0])
 
 
+@app.route('/buy/<int:gig_id>', methods=["GET", "POST"])
+def buy_page(gig_id):
+    gig = GIGS[gig_id]
+    sale = SALEEVENT[gig_id]
+    return render_template('buy.html', gig_sale=sale)
 
 @app.route('/login', methods=["POST"])
 def login():
@@ -62,21 +70,21 @@ def login():
 @app.route('/login_page')
 def login_page():
     """Render the home page"""
-    return render_template('login_page.html', gig_sale=SALES[0])
+    return render_template('login_page.html', gig_sale=SALEEVENT[0])
 
 @app.route('/buy_now', methods=["POST"])
 def buy_now():
     buyer = request.form['buyer']
     buy_amount_str = request.form['buy_amount']
     buy_amount = int(float(buy_amount_str))
-    SALES[0].buy(buyer, buy_amount)
+    SALEEVENT[0].buy(buyer, buy_amount)
     socket.emit("buyer", {"buyer": buyer, "buy_amount": buy_amount})
     return redirect(url_for("purchased"))
 
 @app.route('/purchased')
 def purchased():
     """Render the home page"""
-    return render_template('purchased.html', gig_sale=SALES[0])
+    return render_template('purchased.html', gig_sale=SALEEVENT[0])
 
 
 
