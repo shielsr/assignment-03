@@ -15,3 +15,5 @@ Assignment 3 - Python module
 - Got the placeholder 'gig' working, along with the ability to 'purchase' tickets
 - Added basic login session functionality
 - Allowed users to add new gigs, with loop on homepage showing newly added gigs.
+- Every new gig & sale event has its own /buy page, with the event ID added to the URL
+- To demonstrate Javascript understanding, I added a carousel to the mobile homepage, with code from https://www.geeksforgeeks.org/javascript/create-a-draggable-card-slider-in-html-css-javascript/
