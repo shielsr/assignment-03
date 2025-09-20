@@ -58,6 +58,7 @@ class Sale:
 		self.tickets_left =  tickets_total # A copy of tickets_total that will be reduced as tickets when tickets are sold
 		self.status = SaleStatus.PENDING
 		self.buyer = None
+		self.order_list = []
 		# self.customer = customer # Pulling in the customer
 
 		
@@ -68,13 +69,15 @@ class Sale:
 		# While the sale is live, check whether there are still tickets left
 		if self.status == SaleStatus.LIVE:
 			if self.tickets_total > 0:
-				return f"There are {self.tickets_total} tickets left."
+				# return f"There are {self.tickets_total} tickets left."
+				return {"tickets_left":self.tickets_total}
 			else:
 				self.status = SaleStatus.COMPLETE
 				raise TicketError(f"Sorry, there are no tickets left.")
 				# There probably should be a redirect away from the sales page
 		else:
-			return f"Tickets aren't on sale yet."
+			return {"tickets_left":0}
+   			#return f"Tickets aren't on sale yet."
 
 	def countdown(self):
 		# Counting down to the sale

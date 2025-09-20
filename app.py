@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, session
 from models import *
 from flask_socketio import SocketIO, emit
 from datetime import datetime
+from flask import jsonify
 
 # Store all gigs and sales
 GIGS = []
@@ -55,6 +56,15 @@ def add():
     return render_template("add.html")
 
 
+@app.route('/check-tickets/<int:gig_id>')
+def check_tickets(gig_id):
+    sale = SALEEVENT[gig_id]
+    return jsonify( sale.ticket_check() )
+
+# test
+@app.route("/check")
+def check():
+    return jsonify({"test": 0})
 
 @app.route('/buy/<int:gig_id>', methods=["GET", "POST"])
 def buy_page(gig_id):
@@ -97,5 +107,5 @@ def purchased():
 if __name__ == '__main__':
     # For production use (or adapt further for different async modes):
     #   gunicorn -k geventwebsocket.gunicorn.workers.GeventWebSocketWorker -w 1 app:app
-      socket.run(app, debug=True, use_reloader=False, host="0.0.0.0", port=8001)
-    # app.run(debug=True, port=8000)
+    #  socket.run(app, debug=True, use_reloader=False, host="0.0.0.0", port=8001)
+     app.run(debug=True, port=8000)
