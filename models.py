@@ -121,7 +121,7 @@ def initialise_gig_and_sale():
 		artist="Fontaines DC",
         description="Check out the next gig",
         date_time=datetime(2026,2,5,20,30,0),
-        image_url="static/images/fontaines.jpg",
+        image_url="fontaines.jpg",
         venue="The Olympia",
         promoter=mcd
         )

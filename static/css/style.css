@@ -15,13 +15,15 @@ main {
     padding: 16px 16px;  
 }
 
-
+.title-block {
+    margin-bottom: 16px;
+}
 
 
 /* Setting uniform image height in Bootstrap cards */
 .card-img-top {
     width: 100%;
-    height: 15vw;
+    height: 16vw;
     object-fit: cover;
 }
 

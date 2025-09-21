@@ -1,15 +1,12 @@
 {% extends "base.html" %}
 
 {% block main %}
-<div class="mb-4">
-<h1>Ticket Maestro - For all your event ticketing needs</h1>
-
-<h2>
-      {% if session['username'] %}
-      Welcome, {{ session['username'] }}!
-      {% endif %}
-</h2>
+<div class="title-block">
+      <h1>Welcome {% if session['username'] %}
+            {{ session['username'] }}!
+            {% endif %}</h1>
 </div>
+
 <div class="card mb-4">
       <div class="card-body">
             <h3 class="card-title">Add an upcoming gig</h3>
@@ -20,12 +17,12 @@
 </div>
 
 <div id="home-grid">
+      <h4 class="mb-3">Upcoming gigs:</h4>
       <div class="row">
             {% for gig in gigs %}
             <div class="col-md-4 mb-3">
                   <div class="card h-100">
-                        <img src="{{ gig.image_url }}" alt="{{ gig.artist }}" class="card-img-top"
-                              onclick="enlargeImg()" id="img1">
+                        <img src="{{ url_for('static', filename='images/') }}{{ gig.image_url }}" alt="{{ gig.artist }}" class="card-img-top" id="img1">
                         <div class="card-body">
                               <h5 class="card-title">{{ gig.artist }}</h5>
                               <p>Date: {{ gig.date_time }}</p>
@@ -47,7 +44,7 @@
             {% for gig in gigs %}
             <div class="col-md-4 mb-3">
                   <div class="card carousel-card h-100">
-                        <img src="{{ gig.image_url }}" alt="{{ gig.artist }}" class="card-img-top"
+                        <img src="{{ url_for('static', filename='images/') }}{{ gig.image_url }}" alt="{{ gig.artist }}" class="card-img-top"
                               onclick="enlargeImg()" id="img1">
                         <div class="card-body">
                               <h5 class="card-title">{{ gig.artist }}</h5>
