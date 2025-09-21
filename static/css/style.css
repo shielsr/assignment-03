@@ -1,3 +1,23 @@
+body {
+    margin: 0px;
+}
+
+#wrapper {
+    padding: 0px 16px;
+    background-color: white;
+    margin-left: auto;
+    margin-right: auto;
+    display: grid;
+    background-color: white;
+}
+
+main {
+    padding: 16px 16px;  
+}
+
+
+
+
 /* Setting uniform image height in Bootstrap cards */
 .card-img-top {
     width: 100%;
@@ -5,109 +25,82 @@
     object-fit: cover;
 }
 
-#home-grid .card:hover {
-    transform: scale(1.02);
-}
 
-#home-grid .card {
-    transition: all 0.2s;
+#home-grid {
+    display:none;
 }
 
 
-
-
-/* Card carousel on mobile */
-
+/* ---------------------------------------------------------*/
 
 
 .carousel {
-    display: grid;
-    grid-auto-flow: column;
-    grid-auto-columns: calc((100% / 3) - 2px);
-    gap: 0px;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scroll-behavior: smooth;
-    scrollbar-width: 0;
+  width: 100%; /* Width of carousel */  
+  display: flex; /* Set inline elements */
 }
 
-.carousel::-webkit-scrollbar {
-    display: none;
+.carousel img {
+    height: 200px;
 }
 
-.carousel :where(.carousel-card, .img) {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+
+.card-container {
+  width: 100%; /* Width of card container */
+  display: flex; /* Set inline elements */
+  overflow-x: auto; /* Set overflow in horizontal scroll */
+  overflow-y: hidden; /* Hidden overflow in vertical scroll */
+  scroll-snap-type: x mandatory; /* Force the scroll to snap to the start of a scroll-snap area */
+  gap: 8px; /* Set gap between cards */
+  flex: 0 0 calc(100% - 16px); /* Set width of card container */
 }
 
-.carousel.dragging {
-    scroll-snap-type: none;
-    scroll-behavior: auto;
+.card-container::-webkit-scrollbar {
+  display: none; /* Hide scrollbar in Chrome, Safari and Opera */
 }
 
-.carousel.no-transition {
-    scroll-behavior: auto;
-}
-
-.carousel.dragging .carousel-card {
-    cursor: grab;
-    user-select: none;
-}
-
-.carousel .carousel-card {
-    scroll-snap-align: start;
-    height: 400px;
-    list-style: none;
-    background: #fff;
-    border-radius: 8px;
-    display: flex;
-    cursor: pointer;
-    width: 98%;
-    padding-bottom: 15px;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-}
-
-.carousel-card .img {
-    background: green;
-    width: 145px;
-    height: 145px;
-    border-radius: 50%;
+.carousel-card {
+  min-width: 250px; /* Set min width of card */
+  height: 150px; /* Set height of card */
+  scroll-snap-align: start; /* Set scroll snap */
 
 }
 
-.carousel-card .img img {
-    width: 140px;
-    height: 140px;
-    object-fit: cover;
-    border-radius: 50%;
-    border: 4px solid #fff;
-}
 
-.carousel-card h2 {
-    font-weight: 500;
-    font-size: 1.56rem;
-    margin: 30px 0 5px;
-}
 
-.carousel-card span {
-    color: #6a6d78;
-    font-size: 1.31rem;
+/* ---------------------------------------------------------- */
 
-}
 
-@media screen and (max-width: 900px) {
-   .carousel {
-        grid-auto-columns: calc((100% / 2) - 9px);
 
+
+
+/* Tablet breakpoint */
+
+@media (min-width: 480px) {
+    body {
+        margin: 0px 24px;
+        max-width: 1142px;
+        margin-left: auto;
+        margin-right: auto;
     }
-}
 
-@media screen and (max-width: 600px) {
-   .carousel {
-        grid-auto-columns: 100%;
-
+    #wrapper {
+        padding: 0px 24px;
     }
+
+    #home-grid {
+        display:block;
+    }
+
+    #home-grid .card:hover {
+        transform: scale(1.02);
+    }
+
+    #home-grid .card {
+        transition: all 0.2s;
+    }
+
+    #home-carousel {
+        display:none;
+    }
+
 }

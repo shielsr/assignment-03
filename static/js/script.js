@@ -110,3 +110,29 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 });
+
+
+
+
+// -------------------------------------
+    
+
+
+const listOfCardElements = document.querySelectorAll('.carousel-card');
+const cardElement = document.querySelector('.carousel-card');
+const cardContainer = document.querySelector('.card-container');
+let currentCard = 0;
+
+function setScrollTo() {
+  const scrollLeft = currentCard * listOfCardElements[0].offsetWidth;
+  cardContainer.scrollTo({left: scrollLeft, behavior: 'smooth'});
+}
+
+
+listOfCardElements.forEach((cardElement, index) => {
+  cardElement.addEventListener('click', () => {
+    currentCard = index;
+    const scrollLeft = currentCard * listOfCardElements[0].offsetWidth;
+    cardContainer.scrollTo({ left: scrollLeft, behavior: 'smooth' });
+  });
+});

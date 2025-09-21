@@ -16,4 +16,7 @@ Assignment 3 - Python module
 - Added basic login session functionality
 - Allowed users to add new gigs, with loop on homepage showing newly added gigs.
 - Every new gig & sale event has its own /buy page, with the event ID added to the URL
-- To demonstrate Javascript understanding, I added a carousel to the mobile homepage, with code from https://www.geeksforgeeks.org/javascript/create-a-draggable-card-slider-in-html-css-javascript/
+- To demonstrate Javascript understanding, I added a carousel to the mobile homepage, with code from https://medium.com/@pietrogon/how-to-create-a-carousel-with-html-css-and-javascript-step-by-step-guide-f46c267692d2
+- Included a Bootstrap navbar for desktop and mobile menus. Followed the documentation here: https://getbootstrap.com/docs/4.0/components/navbar/
+
+
