@@ -1,10 +1,11 @@
 document.addEventListener("DOMContentLoaded", function () {
     const refreshTicketsLeft = document.getElementById("refresh-tickets-left");
-
+    if (!refreshTicketsLeft) return; // Exit if refreshTicketsLeft is not present
 
     refreshTicketsLeft.addEventListener("click", function (event) {
 
         const gigId = refreshTicketsLeft.getAttribute("data-gig-id");
+
         fetch(`/check-tickets/${gigId}`)
             .then(response => response.json())
             .then(data => {

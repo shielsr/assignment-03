@@ -9,21 +9,18 @@
 <div class="card mb-4 pb-2 narrow-card">
       <div class="card-body">
 
-            <img src="{{ url_for('static', filename='images/') }}{{gig_sale.gig.image_url}}" class="img-fluid"
+            <img src="{{ url_for('static', filename='images/') }}{{gig_sale.gig.image_url}}" class="img-fluid pb-3"
                   alt="{{gig_sale.gig.artist}}" height="250">
 
             <div>
                   <p>Description: {{gig_sale.gig.description}}</p>
-                  <p>Date: {{gig_sale.gig.date_time}}</p>
+                  <p>Event date and time: {{gig_sale.gig.date_time.strftime('%d %b %Y at %H:%M') }}</p>
                   <p>Venue: {{gig_sale.gig.venue}}</p>
                   <p>Promoter: {{gig_sale.gig.promoter.name}}</p>
                   <p>Price: €{{ "%.2f"|format(gig_sale.ticket_price)}}</p>
-                  <p>Tickets left:
-                        <span id="number-of-tickets">{{ gig_sale.tickets_left }}</span>
-                        <button id="refresh-tickets-left" data-gig-id="{{ gig_id }}" class="btn btn-info">Refresh tickets</button>
-                  </p>
-                  <p>Sale status: {{gig_sale.status.name | title}}</p>
-                  <p>Tickets on sale: {{gig_sale.sale_date_time}}</p>
+
+
+
             </div>
 
       </div>
@@ -33,6 +30,15 @@
 <div class="card mb-4 pb-2 narrow-card">
       <div class="card-body">
             <h3 class="card-title">Buy tickets</h3>
+
+            {% if gig_sale.countdown() < 0 %}
+            <p class="card-text">
+                  <span class="fw-semibold">Tickets are on sale now.</span>
+            <p>Number of tickets left:
+                  <span id="number-of-tickets">{{ gig_sale.tickets_left }}</span>
+                  <button id="refresh-tickets-left" data-gig-id="{{ gig_id }}" class="btn btn-info">Refresh
+                        tickets</button>
+            </p>
             <form action="{{url_for('buy_now')}}" method="post" class="gap-2">
                   <input type="hidden" name="gig_id" value="{{ gig_id }}">
                   <div class="form-group">
@@ -46,6 +52,15 @@
                   </div>
                   <button class="btn btn-primary" type="submit">Buy now</button>
             </form>
+            </p>
+            {% else %}
+            <p>Tickets will be on sale on {{ gig_sale.sale_date_time.strftime('%d %b %Y at %H:%M') }}
+            </p>
+            <p>Days until sale: {{ gig_sale.countdown() }}</p>
+
+            {% endif %}
+
+
       </div>
 </div>
 

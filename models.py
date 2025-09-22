@@ -59,7 +59,7 @@ class Sale:
 		self.status = SaleStatus.PENDING
 		self.buyer = None
 		self.order_list = []
-		# self.customer = customer # Pulling in the customer
+		# self.customer = "" # Pulling in the customer
 
 		
 	def __repr__(self):
@@ -81,13 +81,13 @@ class Sale:
 
 	def countdown(self):
 		# Counting down to the sale
-		days_left = (self.start_date_time - datetime.now()).days
+		days_left = (self.sale_date_time - datetime.now()).days
 		if days_left > 0:
 			self.status = SaleStatus.PENDING
-			return f"Sale starts in {days_left} days."
+			return days_left
 		else:
 			self.status = SaleStatus.LIVE
-			return f"Sale is live."
+			return days_left
 		
 	def buy(self, buyer, buy_amount):
 		if self.tickets_left >= buy_amount: # Make sure there are enough tickets left
@@ -119,7 +119,7 @@ def initialise_gig_and_sale():
 	
 	gig0001 = Gig(
 		artist="Fontaines DC",
-        description="Check out the next gig",
+        description="Dublin's finest are back again.",
         date_time=datetime(2026,2,5,20,30,0),
         image_url="fontaines.jpg",
         venue="The Olympia",
@@ -144,8 +144,8 @@ def initialise_gig_and_sale_2():
 	
 	gig0002 = Gig(
 		artist="Taylor Swift",
-        description="Taylor is coming back to Dublin",
-        date_time=datetime(2026,2,5,20,30,0),
+        description="Taylor's coming back to Dublin next year!",
+        date_time=datetime(2026,10,29,20,00,0),
         image_url="taylor-swift.jpg",
         venue="3Arena",
         promoter=aiken
@@ -154,7 +154,7 @@ def initialise_gig_and_sale_2():
 	sale0002 = Sale(
     	ticket_price=40.99,
         tickets_total=20500,
-        sale_date_time=datetime(2025,3, 30, 10, 0, 0),
+        sale_date_time=datetime(2025,11, 29, 9, 0, 0),
         gig = gig0002,
     )
 

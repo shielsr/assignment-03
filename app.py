@@ -38,7 +38,7 @@ def add():
         venue = request.form.get("venue")
         promoter_name = request.form.get("promoter")
         description = request.form.get("description", "")
-        image_url = request.form.get("image_url", "") # FIx this
+        image_url = request.form.get("image_url", "")
         
         ticket_price = float(request.form.get("ticket_price"))
         tickets_left = int(request.form.get("tickets_left"))
@@ -50,7 +50,8 @@ def add():
             date_time_obj = datetime.strptime(date_time, "%Y-%m-%dT%H:%M")
         except Exception:
             date_time_obj = datetime.now()
-
+            
+            
         promoter = Promoter(promoter_name)
         new_gig = Gig(artist, date_time_obj, venue, promoter, description, image_url)
         GIGS.append(new_gig)
@@ -62,18 +63,17 @@ def add():
     return render_template("add.html")
 
 
+
 @app.route('/check-tickets/<int:gig_id>')
 def check_tickets(gig_id):
+    """The 'Refresh tickets' button on the /buy pages, used mainly to demonstrate JS usage"""
     sale = SALEEVENT[gig_id]
     return jsonify( sale.ticket_check() )
 
-# test
-@app.route("/check")
-def check():
-    return jsonify({"test": 0})
 
 @app.route('/buy/<int:gig_id>', methods=["GET", "POST"])
 def buy_page(gig_id):
+    """Generate the /buy pages"""
     gig = GIGS[gig_id]
     sale = SALEEVENT[gig_id]
     return render_template('buy.html', gig_sale=sale, gig_id=gig_id)
@@ -85,11 +85,11 @@ def login():
 
 @app.route('/login_page')
 def login_page():
-    """Render the home page"""
     return render_template('login_page.html', gig_sale=SALEEVENT[0])
 
 @app.route('/buy_now', methods=["POST"])
 def buy_now():
+    """Triggered by the user pressing the purchase button on the /buy page"""
     gig_id = int(request.form['gig_id'])
     buyer = request.form['buyer']
     buy_amount_str = request.form['buy_amount']
@@ -100,7 +100,7 @@ def buy_now():
 
 @app.route('/purchased')
 def purchased():
-    """Render the home page"""
+    """Page that shows after the user has bought tickets"""
     return render_template('purchased.html', gig_sale=SALEEVENT[0])
 
 
