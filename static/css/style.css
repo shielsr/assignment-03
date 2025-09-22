@@ -12,13 +12,20 @@ body {
 }
 
 main {
-    padding: 16px 16px;  
+    padding: 16px 16px;
 }
 
 .title-block {
     margin-bottom: 16px;
 }
 
+form div {
+    padding-bottom: 12px;
+}
+
+.narrow-card {
+    max-width: 540px;
+}
 
 /* Setting uniform image height in Bootstrap cards */
 .card-img-top {
@@ -29,7 +36,7 @@ main {
 
 
 #home-grid {
-    display:none;
+    display: none;
 }
 
 
@@ -37,8 +44,10 @@ main {
 
 
 .carousel {
-  width: 100%; /* Width of carousel */  
-  display: flex; /* Set inline elements */
+    width: 100%;
+    /* Width of carousel */
+    display: flex;
+    /* Set inline elements */
 }
 
 .carousel img {
@@ -47,23 +56,34 @@ main {
 
 
 .card-container {
-  width: 100%; /* Width of card container */
-  display: flex; /* Set inline elements */
-  overflow-x: auto; /* Set overflow in horizontal scroll */
-  overflow-y: hidden; /* Hidden overflow in vertical scroll */
-  scroll-snap-type: x mandatory; /* Force the scroll to snap to the start of a scroll-snap area */
-  gap: 8px; /* Set gap between cards */
-  flex: 0 0 calc(100% - 16px); /* Set width of card container */
+    width: 100%;
+    /* Width of card container */
+    display: flex;
+    /* Set inline elements */
+    overflow-x: auto;
+    /* Set overflow in horizontal scroll */
+    overflow-y: hidden;
+    /* Hidden overflow in vertical scroll */
+    scroll-snap-type: x mandatory;
+    /* Force the scroll to snap to the start of a scroll-snap area */
+    gap: 8px;
+    /* Set gap between cards */
+    flex: 0 0 calc(100% - 16px);
+    /* Set width of card container */
 }
 
 .card-container::-webkit-scrollbar {
-  display: none; /* Hide scrollbar in Chrome, Safari and Opera */
+    display: none;
+    /* Hide scrollbar in Chrome, Safari and Opera */
 }
 
 .carousel-card {
-  min-width: 250px; /* Set min width of card */
-  height: 150px; /* Set height of card */
-  scroll-snap-align: start; /* Set scroll snap */
+    min-width: 250px;
+    /* Set min width of card */
+    height: 150px;
+    /* Set height of card */
+    scroll-snap-align: start;
+    /* Set scroll snap */
 
 }
 
@@ -90,7 +110,7 @@ main {
     }
 
     #home-grid {
-        display:block;
+        display: block;
     }
 
     #home-grid .card:hover {
@@ -102,7 +122,7 @@ main {
     }
 
     #home-carousel {
-        display:none;
+        display: none;
     }
 
 }

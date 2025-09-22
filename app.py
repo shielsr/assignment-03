@@ -70,7 +70,7 @@ def check():
 def buy_page(gig_id):
     gig = GIGS[gig_id]
     sale = SALEEVENT[gig_id]
-    return render_template('buy.html', gig_sale=sale)
+    return render_template('buy.html', gig_sale=sale, gig_id=gig_id)
 
 @app.route('/login', methods=["POST"])
 def login():

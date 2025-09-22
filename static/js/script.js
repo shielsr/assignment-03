@@ -1,29 +1,17 @@
 document.addEventListener("DOMContentLoaded", function () {
-
-
-    const refreshTicketsLeft = document.getElementById("refresh-tickets-left");
-
-
-    // Tickets left refresh
-    refreshTicketsLeft.addEventListener("click", function (event) {
-        alert("JS is running")
-        fetch('/check-tickets/0').then(response => response.json()).then(data=>{
-            document.getElementById('number-of-tickets').innerText = data.tickets_left;
-        })
-    });
-
-})
-
-
-
-const priceInput = document.getElementById("price");
-
-// Ensure that the price is in the correct format
-priceInput.value = priceInput.valueAsNumber.toFixed(2);
-
-// Handler that ensures the price is in the correct format when modified
-priceInput.addEventListener("input", function (event) {
-    event.target.value = event.target.valueAsNumber.toFixed(2);
+    const btn = document.getElementById("refresh-tickets-left");
+    if (btn) {
+        btn.addEventListener("click", function () {
+            
+            const gigId = btn.getAttribute("data-gig-id");
+            alert(gigId)
+            fetch(`/check-tickets/${gigId}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("number-of-tickets").textContent = data.tickets_left;
+                });
+        });
+    }
 });
 
 
@@ -32,11 +20,14 @@ priceInput.addEventListener("input", function (event) {
 
 document.addEventListener("DOMContentLoaded", function () {
     const carousel = document.querySelector(".carousel");
+    if (!carousel) return; // Exit if carousel is not present
     const arrowBtns = document.querySelectorAll(".wrapper i");
     const wrapper = document.querySelector(".wrapper");
 
     const firstCard = carousel.querySelector(".carousel-card");
     const firstCardWidth = firstCard.offsetWidth;
+
+    
 
     let isDragging = false,
         startX,
@@ -115,7 +106,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 // -------------------------------------
-    
+
 
 
 const listOfCardElements = document.querySelectorAll('.carousel-card');
@@ -124,15 +115,15 @@ const cardContainer = document.querySelector('.card-container');
 let currentCard = 0;
 
 function setScrollTo() {
-  const scrollLeft = currentCard * listOfCardElements[0].offsetWidth;
-  cardContainer.scrollTo({left: scrollLeft, behavior: 'smooth'});
+    const scrollLeft = currentCard * listOfCardElements[0].offsetWidth;
+    cardContainer.scrollTo({ left: scrollLeft, behavior: 'smooth' });
 }
 
 
 listOfCardElements.forEach((cardElement, index) => {
-  cardElement.addEventListener('click', () => {
-    currentCard = index;
-    const scrollLeft = currentCard * listOfCardElements[0].offsetWidth;
-    cardContainer.scrollTo({ left: scrollLeft, behavior: 'smooth' });
-  });
+    cardElement.addEventListener('click', () => {
+        currentCard = index;
+        const scrollLeft = currentCard * listOfCardElements[0].offsetWidth;
+        cardContainer.scrollTo({ left: scrollLeft, behavior: 'smooth' });
+    });
 });

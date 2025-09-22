@@ -6,10 +6,11 @@
 </div>
 
 
-<div class="card mb-4 pb-2">
+<div class="card mb-4 pb-2 narrow-card">
       <div class="card-body">
-            <h3 class="card-title">Gig details</h3>
-            <img src="{{ url_for('static', filename='images/') }}{{gig_sale.gig.image_url}}" alt="{{gig_sale.gig.artist}}" height="250">
+
+            <img src="{{ url_for('static', filename='images/') }}{{gig_sale.gig.image_url}}" class="img-fluid"
+                  alt="{{gig_sale.gig.artist}}" height="250">
 
             <div>
                   <p>Description: {{gig_sale.gig.description}}</p>
@@ -17,9 +18,8 @@
                   <p>Venue: {{gig_sale.gig.venue}}</p>
                   <p>Promoter: {{gig_sale.gig.promoter.name}}</p>
                   <p>Price: €{{ "%.2f"|format(gig_sale.ticket_price)}}</p>
-                  <p>Tickets left: <span id="number-of-tickets">{{gig_sale.tickets_left}}</span></p>
-                  <button id="refresh-tickets-left">Refresh</button>
-
+                  <button id="refresh-tickets-left" data-gig-id="{{ gig_id }}">Refresh tickets</button>
+                  <span id="number-of-tickets">{{ gig_sale.tickets_left }}</span>
 
                   <p>Sale status: {{gig_sale.status.name | title}}</p>
                   <p>Tickets on sale: {{gig_sale.sale_date_time}}</p>
@@ -29,7 +29,7 @@
 </div>
 
 
-<div class="card mb-4 pb-2">
+<div class="card mb-4 pb-2 narrow-card">
       <div class="card-body">
             <h3 class="card-title">Buy tickets</h3>
             <form action="{{url_for('buy_now')}}" method="post" class="gap-2">

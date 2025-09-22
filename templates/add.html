@@ -5,10 +5,11 @@
     <h1>Add</h1>
 </div>
 
-<div class="card" style="width: 18rem">
+<div class="card narrow-card">
     <div class="card-body">
         <h5 class="card-title">Add an upcoming event</h3>
             <form action="{{ url_for('add') }}" method="post">
+
                 <div class="form-group">
                     <label for="artist">Name:</label>
                     <input type="text" name="artist" class="form-control" placeholder="Artist name">
@@ -31,8 +32,13 @@
                         placeholder="Enter description"> </textarea>
                 </div>
                 <div class="form-group">
-                    <label for="description">Image:</label>
-                    <input type="text" id="image" name="image_url" />
+                    <label for="image_url">Image:</label>
+                    <select id="image" name="image_url" class="form-control">
+                        <option selected>Select an image</option>
+                        <option value="chappell.jpg">Chappell Roan</option>
+                        <option value="fontaines.jpg">Fontaines D.C.</option>
+                        <option value="taylor-swift.jpg">Taylor Swift</option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="ticket_price">Ticket price:</label>
@@ -47,6 +53,7 @@
                     <input type="date" name="sale_date_time" class="form-control">
                 </div>
                 <button type="submit" class="btn btn-primary">Create event</button>
+
             </form>
     </div>
 </div>

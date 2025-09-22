@@ -68,15 +68,15 @@ class Sale:
 	def ticket_check(self):
 		# While the sale is live, check whether there are still tickets left
 		if self.status == SaleStatus.LIVE:
-			if self.tickets_total > 0:
+			if self.tickets_left > 0:
 				# return f"There are {self.tickets_total} tickets left."
-				return {"tickets_left":self.tickets_total}
+				return {"tickets_left":self.tickets_left}
 			else:
 				self.status = SaleStatus.COMPLETE
 				raise TicketError(f"Sorry, there are no tickets left.")
 				# There probably should be a redirect away from the sales page
 		else:
-			return {"tickets_left":0}
+			return {"tickets_left":self.tickets_left}
    			#return f"Tickets aren't on sale yet."
 
 	def countdown(self):
