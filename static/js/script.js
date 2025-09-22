@@ -1,18 +1,19 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const btn = document.getElementById("refresh-tickets-left");
-    if (btn) {
-        btn.addEventListener("click", function () {
-            
-            const gigId = btn.getAttribute("data-gig-id");
-            alert(gigId)
-            fetch(`/check-tickets/${gigId}`)
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById("number-of-tickets").textContent = data.tickets_left;
-                });
-        });
-    }
+    const refreshTicketsLeft = document.getElementById("refresh-tickets-left");
+
+
+    refreshTicketsLeft.addEventListener("click", function (event) {
+
+        const gigId = refreshTicketsLeft.getAttribute("data-gig-id");
+        fetch(`/check-tickets/${gigId}`)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("number-of-tickets").innerText = data.tickets_left;
+            });
+    });
+
 });
+
 
 
 
@@ -27,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const firstCard = carousel.querySelector(".carousel-card");
     const firstCardWidth = firstCard.offsetWidth;
 
-    
+
 
     let isDragging = false,
         startX,

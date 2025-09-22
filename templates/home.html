@@ -2,9 +2,7 @@
 
 {% block main %}
 <div class="title-block">
-      <h1>Welcome {% if session['username'] %}
-            {{ session['username'] }}!
-            {% endif %}</h1>
+      <h1>Welcome{% if session['username'] %}, {{ session['username'] }}! {% endif %}</h1>
 </div>
 
 <div class="card mb-4 narrow-card">
@@ -12,7 +10,12 @@
             <h3 class="card-title">Add an upcoming gig</h3>
             <p class="card-text">As a promoter, you can add an upcoming gig and sell tickets directly from Ticket
                   Maestro.</p>
+                  {% if session['username'] %}
             <a class="btn btn-success" href="{{ url_for('add') }}">Add a new gig</a>
+            {% else %}
+            <button class="btn btn-success" onclick="window.location.href='{{ url_for('login_page') }}'">Log in</button>
+            {% endif %}
+            
       </div>
 </div>
 

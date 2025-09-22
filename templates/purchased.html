@@ -1,11 +1,19 @@
 {% extends "base.html" %}
 
 {% block main %}
-<h1>Ticket Maestro - For all your event ticketing needs</h1>
-<h2>Thank you for your purchase</h2>
+
+<h1>Purchase complete</h1>
+
+<div class="card mb-4 narrow-card">
+    <div class="card-body">
+        <h3 class="card-title">Thank you for shopping with Ticket Maestro</h3>
+        <p class="card-text">We hope you enjoy the show</p>
+
+        <a class="btn btn-primary" href="{{ url_for('index') }}">Return to homepage</a>
+    </div>
+</div>
 
 
-<a class="card-link" href="{{ url_for('index') }}">Return to homepage</a>
 
 
 {% endblock %}

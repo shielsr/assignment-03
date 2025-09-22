@@ -8,10 +8,16 @@ from flask import jsonify
 GIGS = []
 SALEEVENT = []
 
-# Add initial gig and sale
+# Add initial gigs and sales
 initial_sale = initialise_gig_and_sale()
 GIGS.append(initial_sale.gig)
 SALEEVENT.append(initial_sale)
+
+# Add initial gigs and sales
+initial_sale_2 = initialise_gig_and_sale_2()
+GIGS.append(initial_sale_2.gig)
+SALEEVENT.append(initial_sale_2)
+
 
 
 app = Flask(__name__)
@@ -35,7 +41,7 @@ def add():
         image_url = request.form.get("image_url", "") # FIx this
         
         ticket_price = float(request.form.get("ticket_price"))
-        tickets_total = int(request.form.get("tickets_total"))
+        tickets_left = int(request.form.get("tickets_left"))
         sale_date_time = request.form.get("sale_date_time")
 
         # Convert date_time string to datetime object
@@ -49,7 +55,7 @@ def add():
         new_gig = Gig(artist, date_time_obj, venue, promoter, description, image_url)
         GIGS.append(new_gig)
         
-        new_sale = Sale(new_gig, ticket_price, tickets_total, sale_date_time)
+        new_sale = Sale(new_gig, ticket_price, tickets_left, sale_date_time)
         SALEEVENT.append(new_sale)
 
         return redirect(url_for("index"))
@@ -84,10 +90,11 @@ def login_page():
 
 @app.route('/buy_now', methods=["POST"])
 def buy_now():
+    gig_id = int(request.form['gig_id'])
     buyer = request.form['buyer']
     buy_amount_str = request.form['buy_amount']
     buy_amount = int(float(buy_amount_str))
-    SALEEVENT[0].buy(buyer, buy_amount)
+    SALEEVENT[gig_id].buy(buyer, buy_amount)
     socket.emit("buyer", {"buyer": buyer, "buy_amount": buy_amount})
     return redirect(url_for("purchased"))
 

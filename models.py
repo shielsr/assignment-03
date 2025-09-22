@@ -134,3 +134,28 @@ def initialise_gig_and_sale():
     )
 
 	return sale0001
+
+def initialise_gig_and_sale_2():
+	"""Create second gig"""
+	aiken = Promoter(
+    	name="Aiken"
+        )
+	
+	
+	gig0002 = Gig(
+		artist="Taylor Swift",
+        description="Taylor is coming back to Dublin",
+        date_time=datetime(2026,2,5,20,30,0),
+        image_url="taylor-swift.jpg",
+        venue="3Arena",
+        promoter=aiken
+        )
+
+	sale0002 = Sale(
+    	ticket_price=40.99,
+        tickets_total=20500,
+        sale_date_time=datetime(2025,3, 30, 10, 0, 0),
+        gig = gig0002,
+    )
+
+	return sale0002

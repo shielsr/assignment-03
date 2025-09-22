@@ -16,7 +16,7 @@ Assignment 3 - Python module
 - Added basic login session functionality
 - Allowed users to add new gigs, with loop on homepage showing newly added gigs.
 - Every new gig & sale event has its own /buy page, with the event ID added to the URL
-- To demonstrate Javascript understanding, I added a carousel to the mobile homepage, with code from https://medium.com/@pietrogon/how-to-create-a-carousel-with-html-css-and-javascript-step-by-step-guide-f46c267692d2
+- To demonstrate understanding of Javascript, I added a carousel to the mobile homepage, with code from https://medium.com/@pietrogon/how-to-create-a-carousel-with-html-css-and-javascript-step-by-step-guide-f46c267692d2
 - Included a Bootstrap navbar for desktop and mobile menus. Followed the documentation here: https://getbootstrap.com/docs/4.0/components/navbar/
-
-
+- Again to demonstrate understanding of Javascript, I worked with Rob Cleary (???????) to fetch the 'tickets_left' amount and update that on the /buy page when the user clicks the 'Refresh tickets' button. 
+- Added logic to the homepage's 'Add a new gig' card so that the user must first log in before they can add a gig.
