@@ -2,7 +2,7 @@
 
 {% block main %}
 <div class="title-block">
-    <h1>Add</h1>
+    <h1>Add event</h1>
 </div>
 
 <div class="card narrow-card">
@@ -20,11 +20,18 @@
                 </div>
                 <div class="form-group">
                     <label for="venue">Venue:</label>
-                    <input type="text" name="venue" class="form-control" placeholder="Venue name">
+                    <select id="venue" name="venue" class="form-select">
+                        <option selected>Select a venue</option>
+                        <option value="The Olympia">The Olympia</option>
+                        <option value="3Arena">3Arena</option>
+                        <option value="Vicar Street">Vicar Street</option>
+                        <option value="Croke Park">Croke Park</option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="promoter">Promoter:</label>
-                    <input type="text" name="promoter" class="form-control" placeholder="Promoter name">
+                    <input type="text" name="promoter" class="form-control"
+                        value="{{ user_datastore[session.username]['promoter'] }}">
                 </div>
                 <div class="form-group">
                     <label for="description">Description:</label>
@@ -33,7 +40,7 @@
                 </div>
                 <div class="form-group">
                     <label for="image_url">Image:</label>
-                    <select id="image" name="image_url" class="form-control">
+                    <select id="image" name="image_url" class="form-select">
                         <option selected>Select an image</option>
                         <option value="chappell.jpg">Chappell Roan</option>
                         <option value="fontaines.jpg">Fontaines D.C.</option>

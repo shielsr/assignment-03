@@ -1,8 +1,17 @@
+import os
 from flask import Flask, render_template, request, redirect, url_for, session
 from models import *
 from flask_socketio import SocketIO, emit
 from datetime import datetime
 from flask import jsonify
+
+
+app = Flask(__name__)
+app.secret_key = os.environ.get("SECRET_KEY", "fallback-secret-key") # For doing the logins
+socket = SocketIO(app, async_mode='gevent')
+
+# A dict of logged in users, and each user's status, in the format: {username: status}
+user_datastore = {}
 
 # Store all gigs and sales
 GIGS = []
@@ -17,12 +26,6 @@ SALEEVENT.append(initial_sale)
 initial_sale_2 = initialise_gig_and_sale_2()
 GIGS.append(initial_sale_2.gig)
 SALEEVENT.append(initial_sale_2)
-
-
-
-app = Flask(__name__)
-app.secret_key = "set this later" # For doing the logins
-socket = SocketIO(app, async_mode='gevent')
 
 
 @app.route('/')
@@ -67,7 +70,7 @@ def add():
         SALEEVENT.append(new_sale)
 
         return redirect(url_for("index"))
-    return render_template("add.html")
+    return render_template("add.html", user_datastore=user_datastore)
 
 
 
@@ -85,14 +88,65 @@ def buy_page(gig_id):
     sale = SALEEVENT[gig_id]
     return render_template('buy.html', gig_sale=sale, gig_id=gig_id)
 
+
+@app.route('/login-page')
+def login_page():
+    return render_template('login_page.html', gig_sale=SALEEVENT[0], logged_in_users=user_datastore)
+
+@app.route('/my-account')
+def my_account():
+    return render_template('my_account.html', user_datastore=user_datastore)
+
 @app.route('/login', methods=["POST"])
-def login():
-    session["username"] = request.form["username"]
+def login_action():
+    username = request.form['username']
+    session["username"] = request.form["username"]  
+    user_datastore[username] = {"promoter": "MCD"}
     return redirect(url_for("index"))
 
-@app.route('/login_page')
-def login_page():
-    return render_template('login_page.html', gig_sale=SALEEVENT[0])
+@app.route('/logout')
+def logout():
+    """Logout action for the app.
+
+    This removes the user both from the session and from the user datastore.
+    If for some reason they're not in either, or both,
+    it ignores the issue silently.
+
+    Note that semantically, this should be a POST request,
+    but using GET for logging out is simpler and popular.
+    """
+    # Get and remove the username from the session.
+    username = session.pop('username', None)
+
+    # Remove the user from the user datastore.
+    user_datastore.pop(username, None)
+
+    # Redirect to the home page.
+    return redirect(url_for('index'))
+
+
+
+
+@app.route('/status', methods=['POST'])
+def set_status():
+    """Set the status of the current user."""
+    # If the user is not logged in, redirect to the login page.
+    if 'username' not in session:
+        return redirect(url_for('login_form'))
+
+    # Get the status from the form field.
+    status = request.form['status']
+
+    # Get the username from the session.
+    # Note this also means a user can only set their own status.
+    username = session['username']
+
+    # Update the status in the user datastore.
+    user_datastore[username] = status
+
+    # Redirect to the home page.
+    return redirect(url_for('home'))
+
 
 @app.route('/buy_now', methods=["POST"])
 def buy_now():

@@ -8,14 +8,18 @@
 <div class="card mb-4 narrow-card">
       <div class="card-body">
             <h3 class="card-title">Add an upcoming gig</h3>
-            <p class="card-text">As a promoter, you can add an upcoming gig and sell tickets directly from Ticket
+            {% if session['username'] %}
+            <p class="card-text">Add an upcoming gig and sell tickets directly from
+                  Ticket
                   Maestro.</p>
-                  {% if session['username'] %}
             <a class="btn btn-success" href="{{ url_for('add') }}">Add a new gig</a>
             {% else %}
+            <p class="card-text">Are you a promoter? If so, you can add an upcoming gig and sell tickets directly from
+                  Ticket
+                  Maestro.</p>
             <button class="btn btn-success" onclick="window.location.href='{{ url_for('login_page') }}'">Log in</button>
             {% endif %}
-            
+
       </div>
 </div>
 
@@ -25,7 +29,8 @@
             {% for gig in gigs %}
             <div class="col-md-4 mb-3">
                   <div class="card h-100">
-                        <img src="{{ url_for('static', filename='images/') }}{{ gig.image_url }}" alt="{{ gig.artist }}" class="card-img-top" id="img1">
+                        <img src="{{ url_for('static', filename='images/') }}{{ gig.image_url }}" alt="{{ gig.artist }}"
+                              class="card-img-top" id="img1">
                         <div class="card-body">
                               <h5 class="card-title">{{ gig.artist }}</h5>
                               <p>Date: {{ gig.date_time }}</p>
@@ -47,8 +52,8 @@
             {% for gig in gigs %}
             <div class="col-md-4 mb-3">
                   <div class="card carousel-card h-100">
-                        <img src="{{ url_for('static', filename='images/') }}{{ gig.image_url }}" alt="{{ gig.artist }}" class="card-img-top"
-                              onclick="enlargeImg()" id="img1">
+                        <img src="{{ url_for('static', filename='images/') }}{{ gig.image_url }}" alt="{{ gig.artist }}"
+                              class="card-img-top" onclick="enlargeImg()" id="img1">
                         <div class="card-body">
                               <h5 class="card-title">{{ gig.artist }}</h5>
 
