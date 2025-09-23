@@ -51,12 +51,19 @@ def add():
         except Exception:
             date_time_obj = datetime.now()
             
+        try:
+            sale_date_time_obj = datetime.strptime(sale_date_time, "%Y-%m-%dT%H:%M")
+        except Exception:
+            sale_date_time_obj = datetime.now()
+            
             
         promoter = Promoter(promoter_name)
         new_gig = Gig(artist, date_time_obj, venue, promoter, description, image_url)
         GIGS.append(new_gig)
         
-        new_sale = Sale(new_gig, ticket_price, tickets_left, sale_date_time)
+        new_sale = Sale(new_gig, ticket_price, tickets_left, sale_date_time_obj)
+        
+        
         SALEEVENT.append(new_sale)
 
         return redirect(url_for("index"))
@@ -101,7 +108,8 @@ def buy_now():
 @app.route('/purchased')
 def purchased():
     """Page that shows after the user has bought tickets"""
-    return render_template('purchased.html', gig_sale=SALEEVENT[0])
+    gig_id = int(request.args.get('gig_id', 1))
+    return render_template('purchased.html', gig_sale=SALEEVENT[gig_id], gig_id=gig_id)
 
 
 
