@@ -8,7 +8,7 @@
 <div class="card narrow-card">
     <div class="card-body">
         <h5 class="card-title">Add an upcoming event</h3>
-            <form action="{{ url_for('add') }}" method="POST" onsubmit="return validateAddForm();">
+            <form id="addForm" action="{{ url_for('add') }}" method="POST">
                 <div class="form-group">
                     <label for="artist">Name:</label>
                     <input type="text" name="artist" class="form-control" placeholder="Artist name">

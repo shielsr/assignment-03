@@ -1,25 +1,37 @@
-/* ----------Form validation for add.html--------------- */
+// ----------Form validation for buy.html---------------
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("buyForm");
+    if (!form) return;
 
-function validateAddForm(event) {
-    if (event) {
-        event.preventDefault();  // From the lecture, this stops the form resetting
-    }
+    form.addEventListener("submit", function (event) {
+        // Run your validation
+        const isValid = validateBuyForm();
+
+        if (!isValid) {
+            // Validation failed → stop submission
+            event.preventDefault();
+        } 
+        // If isValid is true, do nothing → form submits normally
+    });
+});
+
+
+
+function validateBuyForm(event) {
+    if (event) event.preventDefault(); // Stop default submission/reset
+
     let errors = [];
 
-
-    // Collect all inputs
-    let artist = document.querySelector('input[name="artist"]');
-    let dateTime = document.querySelector('input[name="date_time"]');
-    let venue = document.querySelector('select[name="venue"]');
-    let promoter = document.querySelector('input[name="promoter"]');
-    let description = document.querySelector('textarea[name="description"]');
-    let imageUrl = document.querySelector('select[name="image_url"]');
-    let ticketPrice = document.querySelector('input[name="ticket_price"]');
-    let ticketsLeft = document.querySelector('input[name="tickets_left"]');
-    let saleDateTime = document.querySelector('input[name="sale_date_time"]');
+    // Gather the inputs
+    let buyerInput = document.querySelector('input[name="buyer"]'); // may not exist if logged in
+    let buyAmountInput = document.querySelector('input[name="buy_amount"]');
+    let buyAmount = Number(buyAmountInput.value);
+    let ticketsLeftElem = document.getElementById('tickets-left');
+    let ticketsLeft = Number(ticketsLeftElem ? ticketsLeftElem.textContent : 99999);
 
     // Helper to reset and mark invalid fields
     function setValidity(input, isValid, message) {
+        if (!input) return; // skip if element doesn't exist
         input.classList.remove("is-invalid", "is-valid");
         if (isValid) {
             input.classList.add("is-valid");
@@ -29,32 +41,114 @@ function validateAddForm(event) {
         }
     }
 
-    // Field checks
+    // Validate buyer name only if input exists (guest)
+    if (buyerInput) {
+        setValidity(buyerInput, buyerInput.value.trim() !== "", "Your name is required.");
+    }
+
+    // Validate buy amount
+    if (!buyAmountInput.value || isNaN(buyAmount) || buyAmount < 1 || buyAmount > 50) {
+        setValidity(buyAmountInput, false, "You can only buy between 1 and 50 tickets.");
+    } else if (buyAmount > ticketsLeft) {
+        setValidity(buyAmountInput, false, "You can't buy more tickets than are available.");
+    } else {
+        setValidity(buyAmountInput, true);
+    }
+
+    // Show errors
+    let errorDiv = document.getElementById("buy-form-errors");
+    errorDiv.innerHTML = "";
+
+    if (errors.length > 0) {
+        errorDiv.classList.remove('d-none');
+        errorDiv.innerHTML = errors.join("<br>");
+        errorDiv.scrollIntoView({ behavior: "smooth", block: "start" });
+
+        // Focus first invalid field
+        const firstInvalid = document.querySelector(".is-invalid");
+        if (firstInvalid) firstInvalid.focus();
+
+        return false; // Stop form submission
+    } else {
+        errorDiv.classList.add('d-none');
+        return true; // Allow submission
+    }
+}
+
+
+
+
+/* ----------Form validation for add.html--------------- */
+
+document.addEventListener("DOMContentLoaded", function () {
+    const addForm = document.getElementById("addForm"); // Make sure your form has id="addForm"
+    if (!addForm) return;
+
+    addForm.addEventListener("submit", function (event) {
+        const isValid = validateAddForm();
+
+        if (!isValid) {
+            // Stop form submission if invalid
+            event.preventDefault();
+        }
+        // If valid, form submits normally to Flask
+    });
+});
+
+
+
+function validateAddForm() {
+    let errors = [];
+
+    const artist = document.querySelector('input[name="artist"]');
+    const dateTime = document.querySelector('input[name="date_time"]');
+    const venue = document.querySelector('select[name="venue"]');
+    const promoter = document.querySelector('input[name="promoter"]');
+    const description = document.querySelector('textarea[name="description"]');
+    const imageUrl = document.querySelector('select[name="image_url"]');
+    const ticketPrice = document.querySelector('input[name="ticket_price"]');
+    const ticketsLeft = document.querySelector('input[name="tickets_left"]');
+    const saleDateTime = document.querySelector('input[name="sale_date_time"]');
+
+    function setValidity(input, isValid, message) {
+        if (!input) return;
+        input.classList.remove("is-invalid", "is-valid");
+        if (isValid) {
+            input.classList.add("is-valid");
+        } else {
+            input.classList.add("is-invalid");
+            if (message) errors.push(message);
+        }
+    }
+
     setValidity(artist, artist.value.trim() !== "", "Artist name is required.");
     setValidity(dateTime, dateTime.value.trim() !== "", "Date and time of event are required.");
     setValidity(venue, venue.value !== "Select a venue", "Please select a venue.");
     setValidity(promoter, promoter.value.trim() !== "", "Promoter name is required.");
     setValidity(description, description.value.trim() !== "", "Description is required.");
     setValidity(imageUrl, imageUrl.value !== "Select an image", "Please select an image.");
-    setValidity(ticketPrice, ticketPrice.value && !isNaN(ticketPrice.value) && Number(ticketPrice.value) > 0 && Number(ticketPrice.value) < 200, "Ticket price must be between 1 and 200 euro. Don't be greedy!");
+    setValidity(ticketPrice, ticketPrice.value && !isNaN(ticketPrice.value) && Number(ticketPrice.value) > 0 && Number(ticketPrice.value) < 200, "Ticket price must be between 1 and 200 euro.");
     setValidity(ticketsLeft, ticketsLeft.value && !isNaN(ticketsLeft.value) && Number(ticketsLeft.value) > 0 && Number(ticketsLeft.value) < 100000, "Total tickets must be between 1 and 100,000.");
     setValidity(saleDateTime, saleDateTime.value.trim() !== "", "Start of sale date and time are required.");
 
-
-    var errorDiv = document.getElementById("form-errors");
-    errorDiv.innerHTML = ""; // Clear previous errors
+    const errorDiv = document.getElementById("form-errors");
+    errorDiv.innerHTML = "";
 
     if (errors.length > 0) {
-        document.getElementById("form-errors").classList.remove('d-none');
+        errorDiv.classList.remove('d-none');
         errorDiv.innerHTML = errors.join("<br>");
-        document.getElementById("form-errors").scrollIntoView({
-            behavior: "smooth",
-            block: "start"   // "start" | "center" | "end" | "nearest"
-        });
-        return false; // This is critical!
-    }
+        errorDiv.scrollIntoView({ behavior: "smooth", block: "start" });
 
+        const firstInvalid = document.querySelector(".is-invalid");
+        if (firstInvalid) firstInvalid.focus();
+
+        return false;
+    } else {
+        errorDiv.classList.add('d-none');
+        return true;
+    }
 }
+
 
 
 /*  ------------End form validation------------ */
