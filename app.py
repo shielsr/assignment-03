@@ -160,13 +160,15 @@ def buy_now():
     buy_amount = int(float(buy_amount_str))
     SALEEVENT[gig_id].buy(buyer, buy_amount)
     socket.emit("buyer", {"buyer": buyer, "buy_amount": buy_amount})
-    return redirect(url_for("purchased"))
+    # return str(SALEEVENT[gig_id].order_list)   # Storing the user and ticket amount in a dict. Beyond the scope of the assignment.
+    return redirect(url_for("purchased", gig_id=gig_id, buy_amount=buy_amount ))
 
 @app.route('/purchased')
 def purchased():
     """Page that shows after the user has bought tickets"""
     gig_id = int(request.args.get('gig_id', 1))
-    return render_template('purchased.html', gig_sale=SALEEVENT[gig_id], gig_id=gig_id)
+    buy_amount = int(request.args.get('buy_amount'))
+    return render_template('purchased.html', gig_sale=SALEEVENT[gig_id], gig_id=gig_id, buy_amount=buy_amount)
 
 
 
