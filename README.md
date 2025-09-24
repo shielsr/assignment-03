@@ -21,3 +21,4 @@ Assignment 3 - Python module
 - Again to demonstrate understanding of Javascript, I worked with Rob Cleary (???????) to fetch the 'tickets_left' amount and update that on the /buy page when the user clicks the 'Refresh tickets' button. 
 - Added logic to the homepage's 'Add a new gig' card so that the user must first log in before they can add a gig.
 - Developed the login section further, adding a dict with promoter details, which can be edited on a 'My account' page (I followed Yoni's lesson here)
+- Used Javascript to do error checking on form inputs for both the /buy and /add pages

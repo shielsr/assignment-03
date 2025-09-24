@@ -28,7 +28,10 @@
   <div class="wrapper">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container-fluid">
-        <a class="navbar-brand" href="{{ url_for('index') }}">Ticket Maestro</a>
+        <a class="navbar-brand" href="{{ url_for('index') }}">
+          <img src="{{ url_for('static', filename='images/') }}/logos/ticket-maestro-white-small.png"
+            alt="Ticket Maestro" class="img-fluid align-top" id="logo-navbar">
+        </a>
 
         <!-- Hamburger menu button -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"

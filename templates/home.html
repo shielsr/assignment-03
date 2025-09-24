@@ -1,11 +1,17 @@
 {% extends "base.html" %}
 
 {% block main %}
-<div class="title-block">
+
+
+
+<img src="{{ url_for('static', filename='images/') }}/logos/ticket-maestro-white-cropped.png" alt="Ticket Maestro logo"
+                              class="img-fluid m-5 rounded mx-auto d-block" id="logo-home">
+
+                              <div class="title-block">
       <h1>Welcome{% if session['username'] %}, {{ session['username'] }}! {% endif %}</h1>
 </div>
 
-<div class="card mb-4 narrow-card">
+<div class="card mb-5 narrow-card">
       <div class="card-body">
             <h3 class="card-title">Add an upcoming gig</h3>
             {% if session['username'] %}

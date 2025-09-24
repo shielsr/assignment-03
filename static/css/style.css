@@ -19,6 +19,14 @@ main {
     margin-bottom: 16px;
 }
 
+#logo-home {
+    width: 80%;
+}
+
+#logo-navbar {
+    width: 100px;
+}
+
 form div {
     padding-bottom: 12px;
 }
@@ -26,6 +34,7 @@ form div {
 .narrow-card {
     max-width: 540px;
 }
+
 
 /* Setting uniform image height in Bootstrap cards */
 .card-img-top {
@@ -90,7 +99,7 @@ form div {
 
 .carousel a {
     text-decoration: none;
-    color:black;
+    color: black;
 }
 
 /* ---------------------------------------------------------- */
@@ -127,6 +136,14 @@ form div {
 
     #home-carousel {
         display: none;
+    }
+
+    #logo-navbar {
+        width: 160px;
+    }
+
+    #logo-home {
+        width: 60%;
     }
 
 }
