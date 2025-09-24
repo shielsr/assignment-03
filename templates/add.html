@@ -8,8 +8,7 @@
 <div class="card narrow-card">
     <div class="card-body">
         <h5 class="card-title">Add an upcoming event</h3>
-            <form action="{{ url_for('add') }}" method="post">
-
+            <form action="{{ url_for('add') }}" method="POST" onsubmit="return validateAddForm();">
                 <div class="form-group">
                     <label for="artist">Name:</label>
                     <input type="text" name="artist" class="form-control" placeholder="Artist name">
@@ -52,15 +51,19 @@
                 <div class="form-group">
                     <label for="ticket_price">Ticket price:</label>
                     <input type="number" name="ticket_price" class="form-control" step="0.01" id="price">
+                    <small id="ticket_price_help" class="form-text">Price must be between 1 and 200 euro.</small>
                 </div>
                 <div class="form-group">
                     <label for="tickets_left">Total number of tickets:</label>
                     <input type="number" name="tickets_left" class="form-control" placeholder="0">
+                    <small id="sale_date_time_help" class="form-text">Amount must be between 1 and 100,000 tickets.</small>
                 </div>
                 <div class="form-group">
                     <label for="sale_date_time">Start of sale:</label>
                     <input type="datetime-local" name="sale_date_time" class="form-control">
+                    <small id="sale_date_time_help" class="form-text">Set this to a past date to start selling tickets immediately.</small>
                 </div>
+                <div id="form-errors" class="alert-danger alert d-none"></div>
                 <button type="submit" class="btn btn-primary">Create event</button>
 
             </form>

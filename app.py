@@ -42,7 +42,6 @@ def add():
         promoter_name = request.form.get("promoter")
         description = request.form.get("description", "")
         image_url = request.form.get("image_url", "")
-        
         ticket_price = float(request.form.get("ticket_price"))
         tickets_left = int(request.form.get("tickets_left"))
         sale_date_time = request.form.get("sale_date_time")

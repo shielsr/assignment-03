@@ -1,3 +1,67 @@
+/* ----------Form validation for add.html--------------- */
+
+function validateAddForm(event) {
+    if (event) {
+        event.preventDefault();  // From the lecture, this stops the form resetting
+    }
+    let errors = [];
+
+
+    // Collect all inputs
+    let artist = document.querySelector('input[name="artist"]');
+    let dateTime = document.querySelector('input[name="date_time"]');
+    let venue = document.querySelector('select[name="venue"]');
+    let promoter = document.querySelector('input[name="promoter"]');
+    let description = document.querySelector('textarea[name="description"]');
+    let imageUrl = document.querySelector('select[name="image_url"]');
+    let ticketPrice = document.querySelector('input[name="ticket_price"]');
+    let ticketsLeft = document.querySelector('input[name="tickets_left"]');
+    let saleDateTime = document.querySelector('input[name="sale_date_time"]');
+
+    // Helper to reset and mark invalid fields
+    function setValidity(input, isValid, message) {
+        input.classList.remove("is-invalid", "is-valid");
+        if (isValid) {
+            input.classList.add("is-valid");
+        } else {
+            input.classList.add("is-invalid");
+            if (message) errors.push(message);
+        }
+    }
+
+    // Field checks
+    setValidity(artist, artist.value.trim() !== "", "Artist name is required.");
+    setValidity(dateTime, dateTime.value.trim() !== "", "Date and time of event are required.");
+    setValidity(venue, venue.value !== "Select a venue", "Please select a venue.");
+    setValidity(promoter, promoter.value.trim() !== "", "Promoter name is required.");
+    setValidity(description, description.value.trim() !== "", "Description is required.");
+    setValidity(imageUrl, imageUrl.value !== "Select an image", "Please select an image.");
+    setValidity(ticketPrice, ticketPrice.value && !isNaN(ticketPrice.value) && Number(ticketPrice.value) > 0 && Number(ticketPrice.value) < 200, "Ticket price must be between 1 and 200 euro. Don't be greedy!");
+    setValidity(ticketsLeft, ticketsLeft.value && !isNaN(ticketsLeft.value) && Number(ticketsLeft.value) > 0 && Number(ticketsLeft.value) < 100000, "Total tickets must be between 1 and 100,000.");
+    setValidity(saleDateTime, saleDateTime.value.trim() !== "", "Start of sale date and time are required.");
+
+
+    var errorDiv = document.getElementById("form-errors");
+    errorDiv.innerHTML = ""; // Clear previous errors
+
+    if (errors.length > 0) {
+        document.getElementById("form-errors").classList.remove('d-none');
+        errorDiv.innerHTML = errors.join("<br>");
+        document.getElementById("form-errors").scrollIntoView({
+            behavior: "smooth",
+            block: "start"   // "start" | "center" | "end" | "nearest"
+        });
+        return false; // This is critical!
+    }
+
+}
+
+
+/*  ------------End form validation------------ */
+
+/* ----------Refresh tickets_left using JS--------------- */
+
+
 document.addEventListener("DOMContentLoaded", function () {
     const refreshTicketsLeft = document.getElementById("refresh-tickets-left");
     if (!refreshTicketsLeft) return; // Exit if refreshTicketsLeft is not present
@@ -18,7 +82,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-/* Card carousel on mobile  */
+/* ----------Card carousel on mobile only--------------- */
+
 
 document.addEventListener("DOMContentLoaded", function () {
     const carousel = document.querySelector(".carousel");
@@ -94,14 +159,6 @@ document.addEventListener("DOMContentLoaded", function () {
         clearTimeout(timeoutId));
     wrapper.addEventListener("mouseleave", autoPlay);
 
-    // Add event listeners for the arrow buttons to 
-    // scroll the carousel left and right
-    arrowBtns.forEach(btn => {
-        btn.addEventListener("click", () => {
-            carousel.scrollLeft += btn.id === "left" ?
-                -firstCardWidth : firstCardWidth;
-        });
-    });
 });
 
 

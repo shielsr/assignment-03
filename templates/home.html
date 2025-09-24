@@ -52,6 +52,7 @@
       <h4 class="mb-3">Buy tickets:</h4>
       <div class="card-container">
             {% for gig in gigs %}
+            <a href="{{ url_for('buy_page', gig_id=loop.index0) }}" class="text-body-secondary">
             <div class="col-md-4 mb-3">
                   <div class="card carousel-card h-100">
                         <img src="{{ url_for('static', filename='images/') }}{{ gig.image_url }}" alt="{{ gig.artist }}"
@@ -60,13 +61,13 @@
                               <h5 class="card-title">{{ gig.artist }}</h5>
 
                               <p>Venue: {{ gig.venue }}</p>
-                              <form method="get" action="{{ url_for('buy_page', gig_id=loop.index0) }}">
+                              <!-- <form method="get" action="{{ url_for('buy_page', gig_id=loop.index0) }}">
                                     <button class="btn btn-primary" type="submit">Check availability</button>
-                              </form>
+                              </form> -->
 
                         </div>
                   </div>
-            </div>
+            </div></a>
             {% endfor %}
       </div>
 

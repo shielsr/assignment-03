@@ -47,6 +47,7 @@ form div {
     width: 100%;
     /* Width of carousel */
     display: flex;
+    flex-direction: column;
     /* Set inline elements */
 }
 
@@ -87,7 +88,10 @@ form div {
 
 }
 
-
+.carousel a {
+    text-decoration: none;
+    color:black;
+}
 
 /* ---------------------------------------------------------- */
 
