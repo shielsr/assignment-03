@@ -13,6 +13,10 @@ body {
 
 main {
     padding: 16px 16px;
+    display:flex;
+    flex-wrap:wrap;
+    align-content:center;
+    flex-direction: column;
 }
 
 .title-block {
@@ -35,6 +39,14 @@ form div {
     max-width: 540px;
 }
 
+/*
+.centre-content {
+    display:flex;
+    flex-wrap:wrap;
+    align-content:center;
+    flex-direction: column;
+}
+*/
 
 /* Setting uniform image height in Bootstrap cards */
 .card-img-top {

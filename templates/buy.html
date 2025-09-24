@@ -5,70 +5,78 @@
       <h1>{{gig_sale.gig.artist}}</h1>
 </div>
 
+<div class="row row-cols-1 row-cols-md-2 g-4">
+      <div class="col">
 
-<div class="card mb-4 pb-2 narrow-card">
-      <div class="card-body">
+            <div class="card">
+                  <div class="card-body">
 
-            <img src="{{ url_for('static', filename='images/') }}{{gig_sale.gig.image_url}}" class="img-fluid pb-3"
-                  alt="{{gig_sale.gig.artist}}" height="250">
+                        <img src="{{ url_for('static', filename='images/') }}{{gig_sale.gig.image_url}}"
+                              class="img-fluid pb-3" alt="{{gig_sale.gig.artist}}" height="250">
 
-            <div>
-                  <p>Description: {{gig_sale.gig.description}}</p>
-                  <p>Event date and time: {{gig_sale.gig.date_time.strftime('%d %b %Y at %H:%M') }}</p>
-                  <p>Venue: {{gig_sale.gig.venue}}</p>
-                  <p>Promoter: {{gig_sale.gig.promoter.name}}</p>
-                  <p>Price: €{{ "%.2f"|format(gig_sale.ticket_price)}}</p>
+                        <div>
+                              <p>Description: {{gig_sale.gig.description}}</p>
+                              <p>Event date and time: {{gig_sale.gig.date_time.strftime('%d %b %Y at %H:%M') }}</p>
+                              <p>Venue: {{gig_sale.gig.venue}}</p>
+                              <p>Promoter: {{gig_sale.gig.promoter.name}}</p>
+                              <p>Price: €{{ "%.2f"|format(gig_sale.ticket_price)}}</p>
 
 
 
+                        </div>
+
+                  </div>
+            </div>
+      </div>
+      <div class="col">
+            <div class="card">
+                  <div class="card-body">
+                        <h3 class="card-title">Buy tickets</h3>
+
+                        {% if gig_sale.countdown() < 0 %} <p class="card-text">
+                              <span class="fw-semibold">Tickets are on sale now.</span>
+                              <p>Number of tickets left:
+
+                                    <span id="number-of-tickets">{{ gig_sale.tickets_left }}</span>
+                                    <button id="refresh-tickets-left" data-gig-id="{{ gig_id }}"
+                                          class="btn btn-info m-2">Refresh
+                                          tickets</button>
+                              </p>
+                              <form action="{{url_for('buy_now')}}" id="buyForm" method="POST" class="gap-2">
+                                    <input type="hidden" name="gig_id" value="{{ gig_id }}">
+                                    <div class="form-group">
+                                          <label for="customer_name">Your name:</label>
+                                          {% if session['username'] %}
+                                          <input type="text" class="form-control-plaintext" readonly id="customer_name"
+                                                name="buyer" value="{{session.username}}">
+                                          {% else %}
+                                          <input type="text" class="form-control" id="customer_name" name="buyer"
+                                                value="{{session.username}}">
+                                          {% endif %}
+                                    </div>
+                                    <div class="form-group">
+                                          <label for="buy_amount">Number of tickets:</label>
+                                          <input type="number" class="form-control" name="buy_amount" id="buy_amount"
+                                                value="1">
+                                          <small id="buy_amount_help" class="form-text">You can buy between 1 and 100
+                                                tickets.</small>
+                                    </div>
+                                    <div id="buy-form-errors" class="alert-danger alert d-none"></div>
+                                    <button class="btn btn-primary" type="submit">Buy now</button>
+                              </form>
+                              </p>
+                              {% else %}
+                              <p>Tickets will be on sale on {{ gig_sale.sale_date_time.strftime('%d %b %Y at %H:%M') }}
+                              </p>
+                              <p>Days until sale: {{ gig_sale.countdown() }}</p>
+
+                              {% endif %}
+
+                  </div>
             </div>
 
       </div>
 </div>
 
-
-<div class="card mb-4 pb-2 narrow-card">
-      <div class="card-body">
-            <h3 class="card-title">Buy tickets</h3>
-
-            {% if gig_sale.countdown() < 0 %} <p class="card-text">
-                  <span class="fw-semibold">Tickets are on sale now.</span>
-                  <p>Number of tickets left:
-
-                        <span id="number-of-tickets">{{ gig_sale.tickets_left }}</span>
-                        <button id="refresh-tickets-left" data-gig-id="{{ gig_id }}" class="btn btn-info m-2">Refresh
-                              tickets</button>
-                  </p>
-                  <form action="{{url_for('buy_now')}}" id="buyForm" method="POST" class="gap-2">
-                        <input type="hidden" name="gig_id" value="{{ gig_id }}">
-                        <div class="form-group">
-                              <label for="customer_name">Your name:</label>
-                              {% if session['username'] %}
-                              <input type="text" class="form-control-plaintext" readonly id="customer_name" name="buyer"
-                                    value="{{session.username}}">
-                              {% else %}
-                              <input type="text" class="form-control" id="customer_name" name="buyer"
-                                    value="{{session.username}}">
-                              {% endif %}
-                        </div>
-                        <div class="form-group">
-                              <label for="buy_amount">Number of tickets:</label>
-                              <input type="number" class="form-control" name="buy_amount" id="buy_amount" value="1">
-                              <small id="buy_amount_help" class="form-text">You can buy between 1 and 100
-                                    tickets.</small>
-                        </div>
-                        <div id="buy-form-errors" class="alert-danger alert d-none"></div>
-                        <button class="btn btn-primary" type="submit">Buy now</button>
-                  </form>
-                  </p>
-                  {% else %}
-                  <p>Tickets will be on sale on {{ gig_sale.sale_date_time.strftime('%d %b %Y at %H:%M') }}
-                  </p>
-                  <p>Days until sale: {{ gig_sale.countdown() }}</p>
-
-                  {% endif %}
-
-      </div>
-</div>
 
 {% endblock %}
