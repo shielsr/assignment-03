@@ -55,13 +55,13 @@ class Sale:
 		self.sale_date_time = sale_date_time
 		self.ticket_price = ticket_price
 		self.tickets_total = tickets_total # A fixed amount that won't change
-		self.tickets_left =  tickets_total # A copy of tickets_total that will be reduced as tickets when tickets are sold
+		self.tickets_left = tickets_total # A copy of tickets_total that will be reduced as tickets when tickets are sold
 		self.status = SaleStatus.PENDING
 		self.buyer = None
 		self.order_list = []
 		# self.customer = "" # Pulling in the customer
 
-		
+
 	def __repr__(self):
 		return f"Sale(gig='{self.gig})', sale begins='{self.sale_date_time}', amount of tickets={self.tickets_total})"
 
@@ -113,7 +113,7 @@ class Sale:
 def initialise_gig_and_sale():
 	"""Create a basic gig and sale to be used as a default"""
 	mcd = Promoter(
-    	name="MCD"
+    	name="MCD Productions"
         )
 	
 	
@@ -138,7 +138,7 @@ def initialise_gig_and_sale():
 def initialise_gig_and_sale_2():
 	"""Create second gig"""
 	aiken = Promoter(
-    	name="Aiken"
+    	name="Aiken Promotions"
         )
 	
 	

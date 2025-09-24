@@ -89,8 +89,10 @@ def buy_page(gig_id):
     return render_template('buy.html', gig_sale=sale, gig_id=gig_id)
 
 
-@app.route('/login-page')
+@app.route('/login-page', methods=["GET"])
 def login_page():
+    if "username" in session:
+            return redirect(url_for("index")) # Send to homepage if the user tries the /login-page url directly
     return render_template('login_page.html', gig_sale=SALEEVENT[0], logged_in_users=user_datastore)
 
 @app.route('/my-account')
@@ -99,9 +101,9 @@ def my_account():
 
 @app.route('/login', methods=["POST"])
 def login_action():
-    username = request.form['username']
-    session["username"] = request.form["username"]  
-    user_datastore[username] = {"promoter": "MCD"}
+    username = request.form['username'] # Take the username from the form
+    session["username"] = username  # Put it into the session
+    user_datastore[username] = {"promoter": "MCD Productions"} # Update the datastore for that username
     return redirect(url_for("index"))
 
 @app.route('/logout')
@@ -135,17 +137,18 @@ def set_status():
         return redirect(url_for('login_form'))
 
     # Get the status from the form field.
-    status = request.form['status']
+    update_promoter = request.form['update_promoter']
 
     # Get the username from the session.
     # Note this also means a user can only set their own status.
     username = session['username']
 
     # Update the status in the user datastore.
-    user_datastore[username] = status
-
+    user_datastore[username]['promoter'] = update_promoter
+    # {{ user_datastore[session.username]['promoter'] }}
+    
     # Redirect to the home page.
-    return redirect(url_for('home'))
+    return redirect(url_for('my_account'))
 
 
 @app.route('/buy_now', methods=["POST"])

@@ -2,23 +2,59 @@
 
 {% block main %}
 <div class="title-block">
-      <h1>My account</h1>
+  <h1>My account</h1>
 </div>
-
- <!-- A table of logged in users and the status of each -->
-      <table class="table table-striped table-hover">
+<div class="card narrow-card mb-4">
+  <div class="card-body">
+    <h5 class="card-title">My details</h3>
+      <!-- A table of logged in users and the status of each -->
+      <table class="table w-auto table-hover">
         <thead>
-          <tr>
-            <th scope="col">Username</th>
-            <th scope="col">Promoter name</th>
-          </tr>
+
         </thead>
         <tbody>
           <tr>
+            <th scope="row">Your name:</th>
             <td>{{ session.username }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Promotion company:</th>
             <td>{{ user_datastore.get(session.username, {}).get('promoter') }}</td>
           </tr>
         </tbody>
       </table>
+  </div>
+</div>
+
+<div class="card narrow-card">
+  <div class="card-body">
+    <h5 class="card-title">Edit promotion company</h3>
+      <form action="{{ url_for('set_status') }}" method="POST">
+        <p class="card-text">If you now work for a different promoter, you can change it here.</p>
+        <div class="form-group">
+          <label for="update_promoter">Change promoter:</label>
+          <select name="update_promoter" class="form-select" required>
+            <option selected>Select a promoter</option>
+            <option value="Live Nation">Live Nation</option>
+            <option value="MCD Productions">MCD Productions</option>
+            <option value="AEG Live">AEG Live</option>
+            <option value="Aiken Promotions">Aiken Promotions</option>
+            <option value="Music World">Music World</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-outline-primary">Change promoter</button>
+  </div>
+</div>
+
+<!-- Commenting this out so I have the session values on hand
+  <h2 class="form-text">Would you like to update your promoter, {{ session['username'] }}?</h2>
+  <div class="input-group mb-3">
+    <input type="text" name="update_promoter" value="{{ user_datastore[session.username]['promoter'] }}" required
+      class="form-control">
+    <button type="submit" class="btn btn-outline-primary">Set new status</button>
+  </div>
+-->
+
+</form>
 
 {% endblock %}
