@@ -26,7 +26,7 @@ function validateBuyForm(event) {
     let buyerInput = document.querySelector('input[name="buyer"]'); // may not exist if logged in
     let buyAmountInput = document.querySelector('input[name="buy_amount"]');
     let buyAmount = Number(buyAmountInput.value);
-    let ticketsLeftElem = document.getElementById('tickets-left');
+    let ticketsLeftElem = document.getElementById('number-of-tickets');
     let ticketsLeft = Number(ticketsLeftElem ? ticketsLeftElem.textContent : 99999);
 
     // Helper to reset and mark invalid fields
