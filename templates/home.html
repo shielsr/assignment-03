@@ -3,10 +3,7 @@
 {% block main %}
 
 
-<!--
-<img src="{{ url_for('static', filename='images/') }}/logos/ticket-maestro-white-cropped.png" alt="Ticket Maestro logo"
-                              class="img-fluid m-5 rounded mx-auto d-block" id="logo-home">
--->
+
 
 <div class="title-block">
       <h1>Welcome{% if session['username'] %}, {{ session['username'] }}! {% endif %}</h1>
@@ -19,12 +16,12 @@
             <p class="card-text">Add an upcoming gig and sell tickets directly from
                   Ticket
                   Maestro.</p>
-            <a class="btn btn-success" href="{{ url_for('add') }}">Add a new gig</a>
+            <a class="btn btn-dark" href="{{ url_for('add') }}">Add a new gig</a>
             {% else %}
             <p class="card-text">Are you a promoter? If so, you can add an upcoming gig and sell tickets directly from
                   Ticket
                   Maestro.</p>
-            <button class="btn btn-success" onclick="window.location.href='{{ url_for('login_page') }}'">Log in</button>
+            <button class="btn btn-dark" onclick="window.location.href='{{ url_for('login_page') }}'">Log in</button>
             {% endif %}
 
       </div>
