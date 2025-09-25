@@ -102,8 +102,9 @@ form div {
 /* ---------------------------------------------------------*/
 
 
+
 .carousel {
-    width: 100%;
+    width: 92vw;
     /* Width of carousel */
     display: flex;
     flex-direction: column;
