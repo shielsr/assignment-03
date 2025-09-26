@@ -8,6 +8,7 @@ class TicketError(Exception):
 
 class Promoter:
 	def __init__(self, name):
+		"""For Promoter accounts"""
 		self.name = name
 
 	def __repr__(self):
@@ -15,6 +16,7 @@ class Promoter:
 
 class Customer:
 	def __init__(self, name, email):
+		"""Will eventually be used for customer accounts"""
 		self.name = name
 		self.email = email
 
@@ -23,6 +25,7 @@ class Customer:
 
 class Gig:
 	def __init__(self, artist, date_time, venue, promoter, description="", image_url=""):
+		""" For adding new gigs and events"""
 		self.artist = artist
 		self.date_time = date_time
 		self.venue = venue
@@ -79,13 +82,14 @@ class Sale:
 
 	def countdown(self):
 		"""Counting down to the sale"""
-		days_left = (self.sale_date_time - datetime.now()).days
-		if days_left > 0:
+		time_left = (self.sale_date_time - datetime.now())
+		seconds_left = int(time_left.total_seconds())
+		if seconds_left > 0:
 			self.status = SaleStatus.PENDING
-			return days_left
+			return seconds_left
 		else:
 			self.status = SaleStatus.LIVE
-			return days_left
+			return seconds_left
 		
 	def buy(self, buyer, buy_amount):
 		"""Purchase tickets on the /buy page"""
@@ -97,7 +101,6 @@ class Sale:
 			print (f"{buyer}, you are buying {buy_amount} tickets")
 			print (f"Ticket price: {self.ticket_price}")
 			print (f"Total cost: {self.ticket_price * buy_amount}")
-			
 			self.tickets_left = self.tickets_left - buy_amount
 			print (f"There are {self.tickets_left} tickets left.")
 			print(self.order_list)
@@ -143,7 +146,7 @@ def initialise_gig_and_sale_2():
 	gig0002 = Gig(
 		artist="Taylor Swift",
         description="Taylor's coming back to Dublin next year!",
-        date_time=datetime(2026,10,29,20,00,0),
+        date_time= datetime(2026,10, 29, 20, 0, 0),
         image_url="taylor-swift.jpg",
         venue="3Arena",
         promoter=aiken

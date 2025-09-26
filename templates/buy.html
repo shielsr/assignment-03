@@ -35,13 +35,13 @@
 
                         {% if gig_sale.countdown() < 0 %} <p class="card-text">
                               <span class="fw-semibold">Tickets are on sale now.</span>
-                              <p>Number of tickets left:
+                              <p>Number of tickets left:</p>
 
-                                    <span id="number-of-tickets">{{ gig_sale.tickets_left }}</span>
-                                    <button id="refresh-tickets-left" data-gig-id="{{ gig_id }}"
-                                          class="btn btn-info m-2">Refresh
-                                          tickets</button>
-                              </p>
+                              <span id="number-of-tickets">{{ gig_sale.tickets_left }}</span>
+                              <button type="button" id="refresh-tickets-left" data-gig-id="{{ gig_id }}"
+                                    class="btn btn-info m-2">Refresh
+                                    tickets</button>
+
                               <form action="{{url_for('buy_now')}}" id="buyForm" method="POST" class="gap-2">
                                     <input type="hidden" name="gig_id" value="{{ gig_id }}">
                                     <div class="form-group">
@@ -68,8 +68,21 @@
                               {% else %}
                               <p>Tickets will be on sale on {{ gig_sale.sale_date_time.strftime('%d %b %Y at %H:%M') }}
                               </p>
-                              <p>Days until sale: {{ gig_sale.countdown() }}</p>
 
+                              {# This jinja code formats the amount of seconds left into a readable time for the user #}
+                              {% set seconds = gig_sale.countdown() %}
+
+                              {% set days = seconds // (24 * 60 * 60) %}
+                              {% set hours = (seconds % (24 * 60 * 60)) // 3600 %}
+                              {% set minutes = (seconds % 3600) // 60 %}
+                              {% set secs = seconds % 60 %}
+
+                              <p>Time until sale:
+                                    {% if days > 0 %}{{ days }}d {% endif %}
+                                    {% if hours > 0 or days > 0 %}{{ hours }}h {% endif %}
+                                    {% if minutes > 0 or hours > 0 or days > 0 %}{{ minutes }}m {% endif %}
+                                    {{ secs }}s
+                              </p>
                               {% endif %}
 
                   </div>

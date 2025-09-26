@@ -1,14 +1,12 @@
 import os
 from flask import Flask, render_template, request, redirect, url_for, session
 from models import *
-from flask_socketio import SocketIO, emit
 from datetime import datetime
 from flask import jsonify
 
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "fallback-secret-key") # For doing the logins
-socket = SocketIO(app, async_mode='gevent')
 
 # A dict of logged in users
 user_datastore = {}
@@ -47,25 +45,16 @@ def add():
         sale_date_time = request.form.get("sale_date_time")
 
         # Convert date_time string to datetime object
- 
-        try:
-            date_time_obj = datetime.strptime(date_time, "%Y-%m-%dT%H:%M")
-        except Exception:
-            date_time_obj = datetime.now()
-            
-        try:
-            sale_date_time_obj = datetime.strptime(sale_date_time, "%Y-%m-%dT%H:%M")
-        except Exception:
-            sale_date_time_obj = datetime.now()
-            
+        date_time_obj = datetime.strptime(date_time, "%Y-%m-%dT%H:%M")
+        sale_date_time_obj = datetime.strptime(sale_date_time, "%Y-%m-%dT%H:%M")
             
         promoter = Promoter(promoter_name)
+        
+        # Creating objects to add to the GIGS and SALEEVENT list
         new_gig = Gig(artist, date_time_obj, venue, promoter, description, image_url)
         GIGS.append(new_gig)
         
         new_sale = Sale(new_gig, ticket_price, tickets_left, sale_date_time_obj)
-        
-        
         SALEEVENT.append(new_sale)
 
         return redirect(url_for("index"))
@@ -117,8 +106,6 @@ def login_action():
 def logout():
     """Logout action for the app.
     This removes the user both from the session and from the user datastore.
-    If for some reason they're not in either, or both,
-    it ignores the issue silently.
     """
     # Get and remove the username from the session.
     username = session.pop('username', None)
@@ -161,7 +148,6 @@ def buy_now():
     buy_amount_str = request.form['buy_amount']
     buy_amount = int(float(buy_amount_str))
     SALEEVENT[gig_id].buy(buyer, buy_amount)
-    socket.emit("buyer", {"buyer": buyer, "buy_amount": buy_amount})
     # return str(SALEEVENT[gig_id].order_list)   # Storing the user and ticket amount in a dict. Beyond the scope of the assignment.
     return redirect(url_for("purchased", gig_id=gig_id, buy_amount=buy_amount ))
 
@@ -173,15 +159,5 @@ def purchased():
     return render_template('purchased.html', gig_sale=SALEEVENT[gig_id], gig_id=gig_id, buy_amount=buy_amount)
 
 
-
-#@socket.on('ping')
-#def send_pong():
-#    """Process a new message and broadcast it to all users"""
-#    emit('pong', broadcast=True)
-
-
 if __name__ == '__main__':
-    # For production use (or adapt further for different async modes):
-    #   gunicorn -k geventwebsocket.gunicorn.workers.GeventWebSocketWorker -w 1 app:app
-    #  socket.run(app, debug=True, use_reloader=False, host="0.0.0.0", port=8001)
      app.run(debug=True, port=8000)

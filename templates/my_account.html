@@ -7,7 +7,7 @@
 <div class="card narrow-card mb-4">
   <div class="card-body">
     <h5 class="card-title">My details</h3>
-      <!-- A table of logged in users and the status of each -->
+
       <table class="table w-auto table-hover">
         <thead>
 
@@ -20,6 +20,7 @@
           <tr>
             <th scope="row">Promotion company:</th>
             <td>{{ user_datastore.get(session.username, {}).get('promoter') }}</td>
+            <!-- user_datastore has a dict within a dict -->
           </tr>
         </tbody>
       </table>
@@ -45,15 +46,6 @@
         <button type="submit" class="btn btn-primary">Change promoter</button>
   </div>
 </div>
-
-<!-- Commenting this out so I have the session values on hand
-  <h2 class="form-text">Would you like to update your promoter, {{ session['username'] }}?</h2>
-  <div class="input-group mb-3">
-    <input type="text" name="update_promoter" value="{{ user_datastore[session.username]['promoter'] }}" required
-      class="form-control">
-    <button type="submit" class="btn btn-outline-primary">Set new status</button>
-  </div>
--->
 
 </form>
 

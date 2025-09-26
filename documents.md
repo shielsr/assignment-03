@@ -61,7 +61,7 @@ Customer user stories:
 I did not cater for the following user stories in this version of the website, as they are beyond the scope of the assignment.
 
 #### 1. Record details of sale
-[SHOULD] As a promoter, I want to know who has bought how many tickets, so I can send the correct amount of tickets to the right person.  [NOTE: I created a dict that captures this, but I currently don't surface it anywhere]
+[SHOULD] As a promoter, I want to see who has bought how many tickets, so I can send the correct amount of tickets to the right person.  [NOTE: I created a dict that captures this, but I currently don't surface it anywhere. Ideally it would go in /my-account]
 
 #### 2. Artist search
 [SHOULD] As a customer, I want to search for artists I like, to see when and where their next gigs are.
@@ -73,13 +73,12 @@ I did not cater for the following user stories in this version of the website, a
 [SHOULD] As a promoter, I want to be able to edit events I've created, so I can fix typos or adjust event details.
 
 #### 5. Customer accounts
-[SHOULD] As a customer, I want to log in and see what tickets I've bought, so I can keep track of my purchases.
+[SHOULD] As a customer, I want to log in and see what tickets I've bought, so I can keep track of my purchases. [NOTE: I created a `Customer` class and would use it for creating customer (i.e. non-promoter) accounts]
 
-#### 
-[SHOULD] 
+#### 6. Image upload
+[SHOULD] As a promoter, I want to upload images of my artists, so I can add relevant images when creating new events.
 
-#### 
-[MUST] 
+
 
 
 
@@ -135,14 +134,16 @@ The following is a step-by-step account of how I did the project, which closely 
 - Created models.py file with some basic classes
 - Created sandbox.ipynb to start experimenting with my classes
 - Fleshed out the `Promoter`, `Gig` and `Sale` classes
-- Wrote functions to switch the sale on at a certain date and off when tickets run out
-- Wrote functions for the buyer (`buy`), and for counting how many tickets are left (`countdown`)
-- Created a list to store who buys tickets and the amount of tickets (Note: This works, but I ultimately didn't surface it in the HTML as it was beyond the scope of the assignment)
+- Wrote functions e.g. `countdown` to switch the sale on at a certain date and off when tickets run out
+- Wrote functions for the buyer (`buy`), and for counting how many tickets are left
+- Created `order_list` to store who buys tickets and the amount of tickets (Note: This works, but I ultimately didn't surface it in the HTML as it was beyond the scope of the assignment)
 - Set up Flask. Created the app.py file and template html files
-- Got 2 placeholders gigs working, along with the ability to purchase tickets
-- Used Bootstrap for 3-column grid layout of the gig cards
+- Started surfacing the placeholder gig & sale data from Python into the HTML using Jinja
+- Used a Jinja loop to show the placeholder gigs on the homepage in Bootstrap cards
+- Displayed the cards in a 3-column Bootstrap grid
+- Set up the /buy page to allow users to purchase tickets (i.e. reduce the `tickets_left` amount)
 - Added basic login session functionality
-- Allowed users to add new gigs, with loop on homepage showing newly added gigs
+- Allowed users to add new gigs, which appear in the loop on the homepage
 - Every new `gig` & `sale` event has its own /buy page, with the event ID added to the URL
 - To demonstrate understanding of Javascript, I added a carousel to the mobile homepage, adapting code from https://medium.com/@pietrogon/how-to-create-a-carousel-with-html-css-and-javascript-step-by-step-guide-f46c267692d2
 - Included a Bootstrap navbar for desktop and mobile menus. Followed the documentation here: https://getbootstrap.com/docs/4.0/components/navbar/
@@ -157,10 +158,7 @@ The following is a step-by-step account of how I did the project, which closely 
 
 # Challenges faced
 
-Some challenges I faced include:
-
-
-
+Challenges I faced include:
 
 ## Incorporating Javascript
 I found that Python/Flask/Jinja could do a lot of things that I would have previously done in JS, so I had to come up with different ways of incorporating JS. I used it in 3 main places:
@@ -174,36 +172,20 @@ The concept behind it was: During a real-world ticket sale, multiple users will 
 ## Styling with Bootstrap and CSS
 I hadn't used Bootstrap before so there was a learning curve here. I used  Bootstrap for some of the core components (e.g. the navbar, cards and the homepage card grid). I used CSS for the broader layout, using `grid` and `flex`. I also used CSS media queries to show/hide the carousel on mobile, and to add hover effects to the gig cards on desktop. 
 
-
 ## Passing data between Python, Flask, Jinja and Javascript.
 The biggest challenge for me was figuring out how to pass data between Python, Flask, Jinja and Javascript. In particular, it took me a while to figure out how to pass the `gig_id` around, as that ID was essential to tying the /add, /buy and /purchased pages together. The `tickets_left` variable was also a challenge, as I needed to use it in Javascript too (see 'Incorporating Javascript' above).
 
-## Spelling out the flavours
-Probably the biggest challenge was figuring out the `mapFlavours()` function. My goal was to have the 12 chosen pastilles listed in an array as a series of strings, e.g. `[red, red, green, green, green, ...etc.]`. I went back to the lectures on forEach loops and pushing into arrays, and eventually did a `for` loop inside a `forEach` loop.
+## Working with images
+I considered allowing promoters to upload images when they're adding gigs, but I felt this was beyond the scope of the assignment. Instead, I uploaded some .jpgs to static/images and included a select dropdown in the form on the /add page. 
+I also had trouble calling the image locations for the `img src`. I eventually figured out how to do absolute urls with Jinja instead of relative ones.
+
+## Working with sale start dates
+My goal was to only show the 'Buy now' form on the /buy page once the sale start date (`sale_date_time`) is reached. 
+It took a while to figure out how to do this. I eventually figured out I needed to change the inputted date string into a `datetime` object, then doing the maths with `datetime.now()`. 
+The countdown was tricker. I wanted to show a countdown timer on the /buy page.  I initially just did it based on the day, but this didn't allow for a sale starting at, say 9.30am (which, in a real-world scenario, would be a the case).  I had to switch from days to seconds in my `countdown()` method, then I did some Jinja formatting to make it readable to the user in days, hours, mins, seconds.
+
+## Sessions and accounts
+I followed Yoni's lessons on creating sessions, logging in etc., and that went smoothly. An additional thing I did was to put a dict in a dict for `user_datastore`, because I wanted to add more data for each user. In the end, I only set up one key (`'promoter'`) but if developing it further I would add additional keys like email, DOB, etc.  It took me a while to get the hang of pulling the data in via Jinja but I eventually got it. 
 
 ## Bugfixes
-In the Development process section above I documented some of the bugs I encountered along the way. Nothing too challenging, but each one required effort to figure out.
-
-
-# Examples of DOM manipulation
-## Live counter on 'Create' form
-The form for choosing the flavours has a live counter at the top. I used  `.innerText` to change the total count, depending on what numbers the user enters in the form.
-
-## Swapping classes on live counter
-In the live counter, if the total goes over or under 12, I use `.classList.add` and `.classList.remove` to change the CSS class on the counter, turning it red or green.
-
-## Adding the 'Warning' box
-When the page loads, I use `.createElement` and `.appendChild` to add a warning box in the 'Order' section. It would have been easier to hard code the box in the HTML, but I wanted to demonstrate that I could add/remove elements this way.
-
-![Warning box prior to generating pastilles](docs/instructions/image09.jpg)
-
-## Removing the 'Warning' box
-When the user generates their pastilles, I use `.removeChild` to get rid of the warning box in the 'Order' section.  
-
-## Printing the list of pastilles on the order form
-I take the array of pastilles generated by the 'Create' form and print them into the 'Order' section using `.innerText`.
-
-![Printing the array of pastilles at the top of the order form](docs/instructions/image10.jpg)
-
-## Revealing the 'Order' form 
-When the user generates their pastilles, the 'Order' form is revealed using `.style.display = "block"`
+I fixed bugs as they came up. I also had a few friends doing user testing, and fixed anything they spotted.

@@ -9,7 +9,7 @@
 
 <div class="card narrow-card">
     <div class="card-body">
-        <h5 class="card-title">Add an upcoming event</h3>
+        <h5 class="card-title">Add an upcoming event</h5>
             <form id="addForm" action="{{ url_for('add') }}" method="POST">
                 <div class="form-group">
                     <label for="artist">Name:</label>
@@ -17,7 +17,7 @@
                 </div>
                 <div class="form-group">
                     <label for="date_time">Date and time of gig:</label>
-                    <input type="datetime-local" name="date_time" class="form-control">
+                    <input type="datetime-local" name="date_time" class="form-control" step="60">
                 </div>
                 <div class="form-group">
                     <label for="venue">Venue:</label>
@@ -58,12 +58,12 @@
                 <div class="form-group">
                     <label for="tickets_left">Total number of tickets:</label>
                     <input type="number" name="tickets_left" class="form-control" placeholder="0">
-                    <small id="sale_date_time_help" class="form-text">Amount must be between 1 and 100,000
+                    <small id="total_tickets_help" class="form-text">Amount must be between 1 and 100,000
                         tickets.</small>
                 </div>
                 <div class="form-group">
                     <label for="sale_date_time">Start of sale:</label>
-                    <input type="datetime-local" name="sale_date_time" class="form-control">
+                    <input type="datetime-local" name="sale_date_time" class="form-control" step="60">
                     <small id="sale_date_time_help" class="form-text">Set this to a past date to start selling
                         tickets immediately.</small>
                 </div>
@@ -77,10 +77,3 @@
 
 
 {% endblock %}
-
-artist = request.form.get("artist")
-date_time = request.form.get("date_time")
-venue = request.form.get("venue")
-promoter_name = request.form.get("promoter")
-description = request.form.get("description", "")
-image_url = request.form.get("image_url", "")

@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (!isValid) {
             // Validation failed → stop submission
             event.preventDefault();
-        } 
+        }
         // If isValid is true, do nothing → form submits normally
     });
 });
