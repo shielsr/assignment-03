@@ -5,9 +5,6 @@ from decimal import Decimal
 class TicketError(Exception):
 	pass
 
-# As a promoter, I want to post upcoming gigs with details on artist, time, date, and venue, so fans will know what gigs are coming up.
-
-
 
 class Promoter:
 	def __init__(self, name):
@@ -50,7 +47,8 @@ class SaleStatus(Enum):
 class Sale:
 
 	def __init__(self, gig, ticket_price, tickets_total, sale_date_time):
-		# The promoter sets a date and time for the ticket sale (rather than the gig itself)
+		"""The promoter sets a date and time for the ticket sale 
+  		(rather than for the gig itself)"""
 		self.gig = gig
 		self.sale_date_time = sale_date_time
 		self.ticket_price = ticket_price
@@ -66,7 +64,7 @@ class Sale:
 		return f"Sale(gig='{self.gig})', sale begins='{self.sale_date_time}', amount of tickets={self.tickets_total})"
 
 	def ticket_check(self):
-		# While the sale is live, check whether there are still tickets left
+		"""While the sale is live, check whether there are still tickets left"""
 		if self.status == SaleStatus.LIVE:
 			if self.tickets_left > 0:
 				# return f"There are {self.tickets_total} tickets left."
@@ -80,7 +78,7 @@ class Sale:
    			#return f"Tickets aren't on sale yet."
 
 	def countdown(self):
-		# Counting down to the sale
+		"""Counting down to the sale"""
 		days_left = (self.sale_date_time - datetime.now()).days
 		if days_left > 0:
 			self.status = SaleStatus.PENDING
@@ -90,6 +88,7 @@ class Sale:
 			return days_left
 		
 	def buy(self, buyer, buy_amount):
+		"""Purchase tickets on the /buy page"""
 		if self.tickets_left >= buy_amount: # Make sure there are enough tickets left
 			self.order_list.append({ # Add the order details to the order_list
 				"customer": buyer,
@@ -136,12 +135,11 @@ def initialise_gig_and_sale():
 	return sale0001
 
 def initialise_gig_and_sale_2():
-	"""Create second gig"""
+	"""Create a second gig and sale, with the sale happening at a future date"""
 	aiken = Promoter(
     	name="Aiken Promotions"
         )
-	
-	
+		
 	gig0002 = Gig(
 		artist="Taylor Swift",
         description="Taylor's coming back to Dublin next year!",

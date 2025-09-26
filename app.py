@@ -10,10 +10,10 @@ app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "fallback-secret-key") # For doing the logins
 socket = SocketIO(app, async_mode='gevent')
 
-# A dict of logged in users, and each user's status, in the format: {username: status}
+# A dict of logged in users
 user_datastore = {}
 
-# Store all gigs and sales
+# Lists to store all gigs and sales
 GIGS = []
 SALEEVENT = []
 
@@ -82,7 +82,10 @@ def check_tickets(gig_id):
 
 @app.route('/buy/<int:gig_id>', methods=["GET", "POST"])
 def buy_page(gig_id):
-    """Generate the /buy pages"""
+    """Generate the /buy pages
+    Passes in data on the ticket sale and gig
+    Adds the ID of the gig to the URL
+    """
     gig = GIGS[gig_id]
     sale = SALEEVENT[gig_id]
     return render_template('buy.html', gig_sale=sale, gig_id=gig_id)
@@ -90,6 +93,9 @@ def buy_page(gig_id):
 
 @app.route('/login-page', methods=["GET"])
 def login_page():
+    """Generate /login-page
+    Also prevents logged-in users from accessing the page
+    """
     if "username" in session:
             return redirect(url_for("index")) # Send to homepage if the user tries the /login-page url directly
     return render_template('login_page.html', gig_sale=SALEEVENT[0], logged_in_users=user_datastore)
@@ -100,6 +106,8 @@ def my_account():
 
 @app.route('/login', methods=["POST"])
 def login_action():
+    """User presses the 'Log in' button on /login-page
+    """
     username = request.form['username'] # Take the username from the form
     session["username"] = username  # Put it into the session
     user_datastore[username] = {"promoter": "MCD Productions"} # Update the datastore for that username
@@ -108,13 +116,9 @@ def login_action():
 @app.route('/logout')
 def logout():
     """Logout action for the app.
-
     This removes the user both from the session and from the user datastore.
     If for some reason they're not in either, or both,
     it ignores the issue silently.
-
-    Note that semantically, this should be a POST request,
-    but using GET for logging out is simpler and popular.
     """
     # Get and remove the username from the session.
     username = session.pop('username', None)
@@ -126,23 +130,22 @@ def logout():
     return redirect(url_for('index'))
 
 
-
-
-@app.route('/status', methods=['POST'])
-def set_status():
-    """Set the status of the current user."""
-    # If the user is not logged in, redirect to the login page.
+@app.route('/update-promoter', methods=['POST'])
+def update_promoter():
+    """Updates the promoter name on the /my-account page
+    """
+    # If the user is not logged in, redirect to the login page
     if 'username' not in session:
         return redirect(url_for('login_form'))
 
-    # Get the status from the form field.
+    # Get the new promoter name from the form select
     update_promoter = request.form['update_promoter']
 
     # Get the username from the session.
     # Note this also means a user can only set their own status.
     username = session['username']
 
-    # Update the status in the user datastore.
+    # Update the promoter in the dict in the user datastore.
     user_datastore[username]['promoter'] = update_promoter
     # {{ user_datastore[session.username]['promoter'] }}
     

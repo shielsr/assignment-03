@@ -27,57 +27,80 @@
 ## User stories
 
 ### Roles:
-- Existing fan of pastilles
-- Brand new customer
-- Health-conscious customer
-- Gift giver
+- Event promoter who wants to sell tickets
+- Customer who wants to buy tickets
 
 ### User stories:
 
-#### 1. Favourite flavours
-[MUST] As an existing fan, I want to create a bespoke packet of pastilles with my favourite flavours, so I can make the best possible packet for me.
+Event promoter user stories:
 
-#### 2. Live counter
-[MUST] As a user, I want a live counter of how many pastilles I've added to my packet, so I don't have to backtrack and correct errors later.
+#### 1. Create new gig events
+[MUST] As a promoter, I want to post upcoming gigs with details on artist, time, date, and venue, so fans will know what gigs are coming up.
 
-#### 3. Visual representation
-[MUST] As a user, I want to be able to see a mockup of the packet, so I know how it will look before I order it. 
+#### 2. Create ticket sale events
+[MUST] As a promoter, I want to create a ticket sale event with start date, start time, amount of tickets, so I can sell tickets and make money.
 
-#### 4. Shipping
-[MUST] As any user type, I want to be able to ship my creation to a real-world address, so I or a loved one can eat what I have designed.
+#### 3. Countdown to sale start
+[MUST] As a promoter, I don't want to sell tickets before the sale start date, so fans can be ready to buy at a specific time.
 
+#### 4. Measure ticket amount
+[MUST] As a promoter, I want to stop selling tickets when they run out, so I don't sell too many tickets.
+
+Customer user stories:
+
+#### 1. Countdown to sale start
+[MUST] As a customer, I want to see when the ticket sale begins so I can be ready at a specific date and time.
+
+#### 2. Purchase tickets
+[MUST] As a customer, I want to buy tickets so I can attend gigs.
+
+#### 3. See ticket price
+[MUST] As a customer, I want to see the final ticket price, so I know how much I will be paying.
 
 ### Future work:
 I did not cater for the following user stories in this version of the website, as they are beyond the scope of the assignment.
 
-#### 1. Gifting
-[SHOULD] As a gift giver, I want to be able to ship my creation to others as a gift, so that I can share my creation with loved ones.
+#### 1. Record details of sale
+[SHOULD] As a promoter, I want to know who has bought how many tickets, so I can send the correct amount of tickets to the right person.  [NOTE: I created a dict that captures this, but I currently don't surface it anywhere]
 
-#### 2. Trying all flavours
-[SHOULD] As a brand new customer, I want to auto-generate a tube with a random combination of all flavours, so I can try all the flavours.
+#### 2. Artist search
+[SHOULD] As a customer, I want to search for artists I like, to see when and where their next gigs are.
 
-#### 3. Health options
-[SHOULD] As a health-conscious customer, I want to have health-related options, so I can order a healthier version of the product.
+#### 3. 'My events' list
+[SHOULD] As a promoter, I want to see a list of the events I've created, so I can keep track of my events.
+
+#### 4. Edit my events
+[SHOULD] As a promoter, I want to be able to edit events I've created, so I can fix typos or adjust event details.
+
+#### 5. Customer accounts
+[SHOULD] As a customer, I want to log in and see what tickets I've bought, so I can keep track of my purchases.
+
+#### 
+[SHOULD] 
+
+#### 
+[MUST] 
+
+
 
 ## Content
-The page will include:
-- A simple introduction section.
-- A form asking for the desired quantity of pastille flavours, which are: 
-    - Red
-    - Yellow
-    - Green
-    - Orange
-    - Black
- - A visual representation of the roll of pastilles.
- - An order form.
-
+The site will include:
+- Homepage showing available gigs
+- 'Login' page to allow users to start sessions
+- 'Add an event' page with a form for promoters to fill out
+- 'Buy' page with a form for purchasing tickets
+- 'Purchased' page to show that the order has been placed
+- 'My account' page where logged-in users can edit their details
 
 
 ## Prioritised tasks:
-1. Create a html page with a form allowing the user to set the amount of each flavour of pastille they'd like.
-2. The form must have constraints so that the packet contains exactly 12 sweets.
-3. Use a `<canvas>` to show a mockup of the pastilles. 
-3. Create a 'Step 2' order shipping form.
+1. Write classes and functions in Python to facilitate the user stories
+2. Use Flask to set up templates, routes, etc
+3. Use a combination of CSS and Bootstrap for the style and layout of the site
+4. Use Jinja and Javascript for the functionality of the site
+5. Deploy the app to Render.com
+
+
 
 ## Wireframes
 
@@ -107,32 +130,53 @@ The happy path involves the user reaching the 'Create' form, selecting their des
 
 The following is a step-by-step account of how I did the project, which closely corresponds with the series of commits I made to the repo.
 
-- I started with a simple form with 2 dropdowns and a submit button. I followed the Week 7 Unit 12 lecture recording to create the JS, adding event listeners etc.
-- Once that worked, I wanted to put a max of 10 on the total with a warning message.
-- Then I wanted to create a new array containing the amounts of flavours, e.g. if the user selected 3 reds and 2 blues then the array would be red, red, red, blue, blue. I rewatched the lectures on loops and researched how to map one array into another. I went with a forEach and a for loop.
-- I wanted to randomise the order of the flavours in the array, so it was more like a real roll of sweets. I researched it and found the Fisher-Yates function.
-- The HTML for the dropdowns was becoming unwieldy, so I looked up other options. I went with the numerical stepper instead of dropdowns.
-- I wanted to make a visual/graphical representation of the roll of pastilles. I considered using SVGs but thought it was a good opportunity to use what was covered in the Canvas lessson (Week 9). I worked on 'drawing' the pastilles onto the canvas based on the array.
-- Found a bug where if you reduced the amount of selected sweets, the old rectangles remained on the canvas anyway. Added in `clearRect` to clear the canvas each time. 
-- I decided to give my pastilles rounded corners. Did some research and switched from `.fillRect` to `.roundRect`
-- Added new min/max pastille total of 10. Wrote new error messaging with "add x more" or "remove y" to help the user (this made the above bug irrelevant but it's fixed anyway)
-- Made big style changes: Styled the form. Styled the buttons including with focus states. Add background 'tinfoil' image to the canvas. Add an order form, which is only revealed after the user has generated their first roll of pastilles. Need to fix a bug on mobile where the order form isn't revealed.
-- Fixed the bug with `height:auto`. iOS was also 'zooming in' on input fields, which I solved by making the input text 16px. Also added validation for email and number fields on the order form.
-- Added a 'live count' of the sweets as they're added along with error styling.
-- Replaced the vector rectangles on the canvas with PNG photos of actual pastilles. I removed the image backgrounds in Figma. I had to rewrite the entire `drawPastille()` function to work with images instead of vectors.
-- I started using if-else statements to call the different pngs, but it was too messy. Instead, I concatenated the image src using the colour parameter, which tidied up the function nicely.
-- Tidied up the javascript by replacing global variables (which I delcared at the top of the .js file) to functions, e.g. function `redValue()` instead of `let redValue`. This allowed me to remove the `getTotalAmounts()` function and have the input event listener directly trigger the `liveCounting()` function.
-- My order form relied on browser validation, but it was recommended that I add full javascript validation for name, address, email and phone. In the interests of speed I researched & used standard form validation code, tweaking it to suit my project.
-- Fleshed out the structure of the HTML, adding in new sections and autoscroll nav links. Also did an overhaul of the CSS to improve the design and UX/UI, including focus and hover states on the buttons and alt tags on the logo (logo generated in ChatGPT).
-- I wanted to demonstrate that I could add and remove elements using `.createElement`, `.appendChild` and `.removeChild`, so I refactored the warning that appears in the Order section (before the user has generated a roll). It's not the most effective use of .createElement (I realise it's easier to just hard code it) but I wanted to use add it with javascript purely for demo purposes.
+- Brainstormed initial ideas for the assignment
+- Wrote user stories and entities
+- Created models.py file with some basic classes
+- Created sandbox.ipynb to start experimenting with my classes
+- Fleshed out the `Promoter`, `Gig` and `Sale` classes
+- Wrote functions to switch the sale on at a certain date and off when tickets run out
+- Wrote functions for the buyer (`buy`), and for counting how many tickets are left (`countdown`)
+- Created a list to store who buys tickets and the amount of tickets (Note: This works, but I ultimately didn't surface it in the HTML as it was beyond the scope of the assignment)
+- Set up Flask. Created the app.py file and template html files
+- Got 2 placeholders gigs working, along with the ability to purchase tickets
+- Used Bootstrap for 3-column grid layout of the gig cards
+- Added basic login session functionality
+- Allowed users to add new gigs, with loop on homepage showing newly added gigs
+- Every new `gig` & `sale` event has its own /buy page, with the event ID added to the URL
+- To demonstrate understanding of Javascript, I added a carousel to the mobile homepage, adapting code from https://medium.com/@pietrogon/how-to-create-a-carousel-with-html-css-and-javascript-step-by-step-guide-f46c267692d2
+- Included a Bootstrap navbar for desktop and mobile menus. Followed the documentation here: https://getbootstrap.com/docs/4.0/components/navbar/
+- Again to demonstrate understanding of Javascript, I worked with Rob Cleary to fetch the `tickets_left` amount and update that on the /buy page when the user clicks the 'Refresh tickets' button. 
+- Added logic to the homepage's 'Add a new gig' card so that the user must first log in before they can add a gig
+- Developed the login section further, adding a dict with promoter details, which can be edited on a 'My account' page (I followed Yoni's lesson here)
+- Used Javascript to do error checking on form inputs for both the /buy and /add pages
+- Used flex and grid in CSS to finalise the layout
+- Added favicon and logo (generated by AI)
 - Did a final tidy-up of my code and completed the documentation.
+
 
 # Challenges faced
 
 Some challenges I faced include:
 
-## Adding images to the canvas
-I initially drew simple rectangles to the `<canvas>` to represent the pastilles, but I wanted to challenge myself and use real photos of pastilles instead. So, I took photos & cropped them in Figma. The biggest challange was figuring out how to add pngs to the canvas. Once I got it working, I then had a huge function full of if/else statements. I simplified the function when I realised I could just pass a 'colour' parameter into the `src` filename & call the image that way.
+
+
+
+## Incorporating Javascript
+I found that Python/Flask/Jinja could do a lot of things that I would have previously done in JS, so I had to come up with different ways of incorporating JS. I used it in 3 main places:
+1. The mobile carousel on the homepage
+2. The 'Refresh tickets' button on the /buy page
+3. Form validaiton on the /buy and /add pages
+
+The 'Refresh tickets' button warrants more explanation. I worked with Rob Cleary on using Javascript to fetch the number of tickets left from the server. 
+The concept behind it was: During a real-world ticket sale, multiple users will buy tickets at the same time. So, it's possible that tickets will run out before a user can complete their order. The 'Refresh tickets' button reflects this scenario. You can test it out by opening the site in 2 browsers, buying tickets in one, then pressing 'Refresh tickets' in the other browser to see the 'tickets left' number decreasing.
+
+## Styling with Bootstrap and CSS
+I hadn't used Bootstrap before so there was a learning curve here. I used  Bootstrap for some of the core components (e.g. the navbar, cards and the homepage card grid). I used CSS for the broader layout, using `grid` and `flex`. I also used CSS media queries to show/hide the carousel on mobile, and to add hover effects to the gig cards on desktop. 
+
+
+## Passing data between Python, Flask, Jinja and Javascript.
+The biggest challenge for me was figuring out how to pass data between Python, Flask, Jinja and Javascript. In particular, it took me a while to figure out how to pass the `gig_id` around, as that ID was essential to tying the /add, /buy and /purchased pages together. The `tickets_left` variable was also a challenge, as I needed to use it in Javascript too (see 'Incorporating Javascript' above).
 
 ## Spelling out the flavours
 Probably the biggest challenge was figuring out the `mapFlavours()` function. My goal was to have the 12 chosen pastilles listed in an array as a series of strings, e.g. `[red, red, green, green, green, ...etc.]`. I went back to the lectures on forEach loops and pushing into arrays, and eventually did a `for` loop inside a `forEach` loop.
