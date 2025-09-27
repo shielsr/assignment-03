@@ -57,6 +57,9 @@ I did not cater for the following user stories in this version of the website, a
 #### 6. Image upload
 [SHOULD] As a promoter, I want to upload images of my artists, so I can add relevant images when creating new events.
 
+#### 7. Events in different time zones
+[SHOULD] As a promoter, I want to add events in different time zones, so I can operate in different countries.
+
 
 <br>
 <br>
@@ -197,7 +200,9 @@ It took a while to figure out how to do this. I eventually figured out I needed 
 <a id="countdown-timer"></a>
 
 ### Countdown timer
-The countdown was trickier. I wanted to show a countdown timer on the /buy page.  I initially did it based on the day (i.e. the buy form appeared at midnight), but this didn't allow for a sale starting at, say, 9.30am (which, in a real-world scenario, would be the case).  I then switched from days to seconds in my `countdown()` method. I also wanted to make it readable to the user in days, hours, mins, seconds. I initially did this in Jinja, but then realised it would be better to do it in Javascript.
+The countdown was trickier. I wanted to show a countdown timer on the /buy page.  I initially did it based on the day (i.e. the buy form appeared at midnight), but this didn't allow for a sale starting at, say, 9.30am (which, in a real-world scenario, would be the case).  I then switched from days to seconds in my `countdown()` method. I also wanted to make it readable to the user in days, hours, mins, seconds. I initially did this in Jinja, but then realised it would be better to do it in Javascript. 
+
+Note: The Render.com server operates in UTC rather than Ireland's UTC+1, so for now the deployed app is one hour behind Irish time.
 
 <br>
 
