@@ -202,7 +202,13 @@ The countdown was trickier. I wanted to show a countdown timer on the /buy page.
 <br>
 
 ## Sessions and accounts
-I followed Yoni's lessons on creating sessions, logging in, and editing account details. I put a dict in a dict for `user_datastore`, because I wanted to add more data for each user. In the end, I only set up one key (`'promoter'`) but if developing it further I would add additional keys like email, DOB, etc.  It took me a while to get the hang of pulling the data in via Jinja but I eventually got it. I also allowed the user to update their `promoter`.
+I followed Yoni's lessons on creating sessions, logging in, and editing account details. I put a dict in a dict for `user_datastore`, because I wanted to add more data for each user. In the end, I only set up one key (`'promoter'`) but if developing it further I would add additional keys like email, DOB, etc.  
+
+### Changing account settings and showing these updates site-wide
+
+I wanted to create a /my-account page. It took me a while to get the hang of pulling the data in via Jinja but I eventually got it. I allowed the user to update their `promoter`. I went one step further and, on the /add page (where users add new events) I pulled the `promoter` value into the Promoter text input field. When the user changes their `promoter` in their account, the change is reflect in the /add page too. 
+
+![Promoter change reflected in the add form](docs/instructions/promoter-change.jpg)
 
 <br>
 
