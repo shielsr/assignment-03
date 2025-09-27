@@ -110,7 +110,7 @@ class Sale:
 
 
 
-# Initialise a gig and sale
+# Initialise 2 gigs and sales for the homepage card grid
 
 def initialise_gig_and_sale():
 	"""Create a basic gig and sale to be used as a default"""
@@ -137,8 +137,11 @@ def initialise_gig_and_sale():
 
 	return sale0001
 
+
 def initialise_gig_and_sale_2():
-	"""Create a second gig and sale, with the sale happening at a future date"""
+	"""Create a second gig and sale, with the sale happening at a future date
+ 	Note: The sale_date_time is in the future, so you'll see a countdown instead 
+  	of the buy form on the /buy page"""
 	aiken = Promoter(
     	name="Aiken Promotions"
         )

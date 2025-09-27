@@ -55,9 +55,11 @@
             {% endif %}
             <li class="nav-item">
               {% if session.get('username') %}
-              <button type="button" class="btn btn-light" onclick="window.location.href='{{ url_for('logout') }}'">Log out</button>
+              <button type="button" class="btn btn-light" onclick="window.location.href='{{ url_for('logout') }}'">Log
+                out</button>
               {% else %}
-              <button type="button" class="btn btn-light" onclick="window.location.href='{{ url_for('login_page') }}'">Log in</button>
+              <button type="button" class="btn btn-light"
+                onclick="window.location.href='{{ url_for('login_page') }}'">Log in</button>
               {% endif %}
             </li>
 

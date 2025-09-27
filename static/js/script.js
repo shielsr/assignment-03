@@ -280,3 +280,39 @@ listOfCardElements.forEach((cardElement, index) => {
         cardContainer.scrollTo({ left: scrollLeft, behavior: 'smooth' });
     });
 });
+
+
+/* -------- Countdown timer on /buy page -----------  */
+
+document.addEventListener("DOMContentLoaded", function () {
+    const countdownText = document.getElementById("countdown");
+    let secondsLeft = Number(countdownText.dataset.seconds);
+
+    function render(sec) {
+        if (sec <= 0) {
+            countdownText.textContent = "Sale is live! Reload this page to start buying tickets.";
+            return;
+        }
+        const days = Math.floor(sec / 86400);
+        const hours = Math.floor((sec % 86400) / 3600);
+        const minutes = Math.floor((sec % 3600) / 60);
+        const seconds = sec % 60;
+
+        countdownText.textContent =
+            (days > 0 ? days + "d " : "") +
+            (hours > 0 ? hours + "h " : "") +
+            (minutes > 0 ? minutes + "m " : "") +
+            seconds + "s";
+    }
+
+    render(secondsLeft);
+    const timer = setInterval(function () {
+        secondsLeft--;
+        if (secondsLeft <= 0) {
+            clearInterval(timer);
+            render(0);
+        } else {
+            render(secondsLeft);
+        }
+    }, 1000);
+});

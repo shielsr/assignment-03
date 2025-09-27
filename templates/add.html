@@ -10,67 +10,68 @@
 <div class="card narrow-card">
     <div class="card-body">
         <h5 class="card-title">Add an upcoming event</h5>
-            <form id="addForm" action="{{ url_for('add') }}" method="POST">
-                <div class="form-group">
-                    <label for="artist">Name:</label>
-                    <input type="text" name="artist" class="form-control" placeholder="Artist name">
-                </div>
-                <div class="form-group">
-                    <label for="date_time">Date and time of gig:</label>
-                    <input type="datetime-local" name="date_time" class="form-control" step="60">
-                </div>
-                <div class="form-group">
-                    <label for="venue">Venue:</label>
-                    <select id="venue" name="venue" class="form-select">
-                        <option selected>Select a venue</option>
-                        <option value="The Olympia">The Olympia</option>
-                        <option value="3Arena">3Arena</option>
-                        <option value="Vicar Street">Vicar Street</option>
-                        <option value="Croke Park">Croke Park</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="promoter">Promoter:</label>
-                    <input type="text" name="promoter" class="form-control"
-                        value="{{ user_datastore[session.username]['promoter'] }}">
-                </div>
-                <div class="form-group">
-                    <label for="description">Description:</label>
-                    <textarea name="description" rows="5" cols="30" class="form-control"
-                        placeholder="Enter description"> </textarea>
-                </div>
-                <div class="form-group">
-                    <label for="image_url">Image:</label>
-                    <select id="image" name="image_url" class="form-select">
-                        <option selected>Select an image</option>
-                        <option value="chappell.jpg">Chappell Roan</option>
-                        <option value="fontaines.jpg">Fontaines D.C.</option>
-                        <option value="taylor-swift.jpg">Taylor Swift</option>
-                        <option value="oasis.jpg">Oasis</option>
-                        <option value="elmo.jpg">Elmo</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="ticket_price">Ticket price:</label>
-                    <input type="number" name="ticket_price" class="form-control" step="0.01" id="price">
-                    <small id="ticket_price_help" class="form-text">Price must be between 1 and 200 euro.</small>
-                </div>
-                <div class="form-group">
-                    <label for="tickets_left">Total number of tickets:</label>
-                    <input type="number" name="tickets_left" class="form-control" placeholder="0">
-                    <small id="total_tickets_help" class="form-text">Amount must be between 1 and 100,000
-                        tickets.</small>
-                </div>
-                <div class="form-group">
-                    <label for="sale_date_time">Start of sale:</label>
-                    <input type="datetime-local" name="sale_date_time" class="form-control" step="60">
-                    <small id="sale_date_time_help" class="form-text">Set this to a past date to start selling
-                        tickets immediately.</small>
-                </div>
-                <div id="form-errors" class="alert-danger alert d-none"></div>
-                <button type="submit" class="btn btn-primary">Create event</button>
+        <form id="addForm" action="{{ url_for('add') }}" method="POST">
+            <div class="form-group">
+                <label for="artist">Name:</label>
+                <input type="text" name="artist" class="form-control" placeholder="Artist name">
+            </div>
+            <div class="form-group">
+                <label for="date_time">Date and time of gig:</label>
+                <input type="datetime-local" name="date_time" class="form-control" step="60">
+            </div>
+            <div class="form-group">
+                <label for="venue">Venue:</label>
+                <select id="venue" name="venue" class="form-select">
+                    <option selected>Select a venue</option>
+                    <option value="The Olympia">The Olympia</option>
+                    <option value="3Arena">3Arena</option>
+                    <option value="Vicar Street">Vicar Street</option>
+                    <option value="Croke Park">Croke Park</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="promoter">Promoter:</label>
+                <input type="text" name="promoter" class="form-control"
+                    value="{{ user_datastore[session.username]['promoter'] }}">
+            </div>
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea name="description" rows="5" cols="30" class="form-control"
+                    placeholder="Enter description"> </textarea>
+            </div>
+            <div class="form-group">
+                <!-- Future feature: This should be an image upload -->
+                <label for="image_url">Image:</label>
+                <select id="image" name="image_url" class="form-select">
+                    <option selected>Select an image</option>
+                    <option value="chappell.jpg">Chappell Roan</option>
+                    <option value="fontaines.jpg">Fontaines D.C.</option>
+                    <option value="taylor-swift.jpg">Taylor Swift</option>
+                    <option value="oasis.jpg">Oasis</option>
+                    <option value="elmo.jpg">Elmo</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="ticket_price">Ticket price:</label>
+                <input type="number" name="ticket_price" class="form-control" step="0.01" id="price">
+                <small id="ticket_price_help" class="form-text">Price must be between 1 and 200 euro.</small>
+            </div>
+            <div class="form-group">
+                <label for="tickets_left">Total number of tickets:</label>
+                <input type="number" name="tickets_left" class="form-control" placeholder="0">
+                <small id="total_tickets_help" class="form-text">Amount must be between 1 and 100,000
+                    tickets.</small>
+            </div>
+            <div class="form-group">
+                <label for="sale_date_time">Start of sale:</label>
+                <input type="datetime-local" name="sale_date_time" class="form-control" step="60">
+                <small id="sale_date_time_help" class="form-text">Set this to a past date to start selling
+                    tickets immediately.</small>
+            </div>
+            <div id="form-errors" class="alert-danger alert d-none"></div>
+            <button type="submit" class="btn btn-primary">Create event</button>
 
-            </form>
+        </form>
     </div>
 </div>
 

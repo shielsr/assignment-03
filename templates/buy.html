@@ -32,7 +32,7 @@
             <div class="card">
                   <div class="card-body">
                         <h3 class="card-title">Buy tickets</h3>
-
+                        <!-- The form will only show if the sale start date and time has passed -->
                         {% if gig_sale.countdown() < 0 %} <p class="card-text">
                               <span class="fw-semibold">Tickets are on sale now.</span>
                               <p>Number of tickets left:</p>
@@ -66,22 +66,12 @@
                               </form>
                               </p>
                               {% else %}
+                              <!-- Live JS counter -->
                               <p>Tickets will be on sale on {{ gig_sale.sale_date_time.strftime('%d %b %Y at %H:%M') }}
                               </p>
-
-                              {# This jinja code formats the amount of seconds left into a readable time for the user #}
-                              {% set seconds = gig_sale.countdown() %}
-
-                              {% set days = seconds // (24 * 60 * 60) %}
-                              {% set hours = (seconds % (24 * 60 * 60)) // 3600 %}
-                              {% set minutes = (seconds % 3600) // 60 %}
-                              {% set secs = seconds % 60 %}
-
-                              <p>Time until sale:
-                                    {% if days > 0 %}{{ days }}d {% endif %}
-                                    {% if hours > 0 or days > 0 %}{{ hours }}h {% endif %}
-                                    {% if minutes > 0 or hours > 0 or days > 0 %}{{ minutes }}m {% endif %}
-                                    {{ secs }}s
+                              <p>
+                                    Time until sale: <span id="countdown"
+                                          data-seconds="{{ gig_sale.countdown() }}"></span>
                               </p>
                               {% endif %}
 

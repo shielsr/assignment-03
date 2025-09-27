@@ -56,7 +56,6 @@ footer {
 
 
 
-
 .title-block {
     margin-bottom: 16px;
 }
@@ -77,15 +76,6 @@ form div {
     max-width: 540px;
 }
 
-/*
-.centre-content {
-    display:flex;
-    flex-wrap:wrap;
-    align-content:center;
-    flex-direction: column;
-}
-*/
-
 /* Setting uniform image height in Bootstrap cards */
 .card-img-top {
     width: 100%;
@@ -99,7 +89,7 @@ form div {
 }
 
 
-/* ---------------------------------------------------------*/
+/* --------------------- Carousel on mobile ---------------------*/
 
 
 
@@ -153,13 +143,11 @@ form div {
     color: black;
 }
 
-/* ---------------------------------------------------------- */
 
 
 
+/* --------------------- Desktop breakpoint --------------------- */
 
-
-/* Tablet breakpoint */
 
 @media (min-width: 480px) {
     body {
